@@ -35,6 +35,7 @@
     </LinearLayout>
 
     <Button
+        android:id="@+id/ButtonName"
         android:layout_width="59dp"
         android:layout_height="59dp"
         android:layout_gravity="center"

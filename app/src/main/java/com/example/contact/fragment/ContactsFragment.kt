@@ -14,6 +14,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -39,7 +40,7 @@ import org.w3c.dom.Text
 import java.util.jar.Attributes
 
 
-class ContactsFragment : Fragment(),ItemClickListener {
+class ContactsFragment : Fragment(), ItemClickListener {
     lateinit var contactViewModel: ContactViewModel
     lateinit var contactRepository: ContactRepository
     lateinit var contactDao: ContactDao
@@ -47,25 +48,20 @@ class ContactsFragment : Fragment(),ItemClickListener {
     lateinit var contactAdapter: ContactAdapter
 
     private var contactList = mutableListOf<Contact>()
-    private var list = mutableListOf<Contact>()
+
+    companion object {
+        val arr = arrayOf("android.permission.READ_CONTACTS", "android.permission.WRITE_CONTACTS")
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        ActivityCompat.requestPermissions(this.requireActivity(),arr,111)
+
         addContact.setOnClickListener {
             startActivity(Intent(this.context, AddNewContact::class.java))
         }
-        if (context?.let {
-                ActivityCompat.checkSelfPermission(
-                    it,
-                    Manifest.permission.READ_CONTACTS
-                )
-            } != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(context as Activity, Array(1) {
-                Manifest.permission.READ_CONTACTS
-            }, 111)
-        } else {
-            //readContacts()
-        }
+
         contactDatabase = ContactDatabase.getDatabase(requireContext())
         contactDao = contactDatabase.contactDao()
         contactRepository = ContactRepository(contactDao, requireContext())
@@ -90,7 +86,7 @@ class ContactsFragment : Fragment(),ItemClickListener {
             @SuppressLint("NotifyDataSetChanged")
             override fun onQueryTextChange(newText: String?): Boolean {
                 lifecycleScope.launch {
-                    contactViewModel.searchContact(newText.toString()).observe(viewLifecycleOwner) {
+                    contactViewModel.searchContact(newText.toString()).observe(requireActivity()) {
                         contactList.clear()
                         contactList.addAll(it)
                         contactAdapter.notifyDataSetChanged()
@@ -117,11 +113,26 @@ class ContactsFragment : Fragment(),ItemClickListener {
     }
 
     override fun clickListener(contact: Contact, position: Int) {
-        val intent=Intent(this.context,ContactDetails::class.java)
+        val intent = Intent(this.context, ContactDetails::class.java)
 
-        intent.putExtra("name",contact.name)
-      //  intent.putExtra("number",contact.number)
+        intent.putExtra("name", contact.name)
+         intent.putExtra("number",contact.number)
         startActivity(intent)
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String?>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode==111){
+            if (grantResults[0]==PackageManager.PERMISSION_GRANTED){
+                Toast.makeText(this.context, "Permission granted", Toast.LENGTH_SHORT).show()
+            }else{
+                Toast.makeText(this.context, "Permission denied", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 }
 

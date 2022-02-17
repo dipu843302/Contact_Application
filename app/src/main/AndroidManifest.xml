@@ -14,6 +14,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Contact">
         <activity
+            android:name=".activity.EditContact"
+            android:exported="false" />
+        <activity
             android:name=".activity.ContactDetails"
             android:exported="false" />
         <activity

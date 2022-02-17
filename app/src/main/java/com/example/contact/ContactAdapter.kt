@@ -33,6 +33,7 @@ class ContactAdapter(list: List<Contact>, private val itemClickListener: ItemCli
         fun setData(contact: Contact) {
             itemView.apply {
                 tvName.text = contact.name
+                btnName.text=contact.name.get(0).toString()
                 tvName.setOnClickListener {
                     itemClickListener.clickListener(contact, adapterPosition)
                 }

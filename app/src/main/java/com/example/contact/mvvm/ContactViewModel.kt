@@ -2,6 +2,7 @@ package com.example.contact.mvvm
 
 import androidx.lifecycle.*
 import com.example.contact.room.Contact
+import kotlinx.coroutines.launch
 
 
 class ContactViewModel(private val contactRepository: ContactRepository) : ViewModel() {
@@ -20,6 +21,12 @@ class ContactViewModel(private val contactRepository: ContactRepository) : ViewM
 
     fun deleteContact(name: String) {
         contactRepository.delete(name)
+    }
+
+    fun contactUpdate(oldName:String,NewName:String,number:String){
+        viewModelScope.launch {
+            contactRepository.contactUpdate(oldName,NewName,number)
+        }
     }
 
 }

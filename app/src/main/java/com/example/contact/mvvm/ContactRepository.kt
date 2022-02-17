@@ -47,10 +47,10 @@ class ContactRepository(val contactDao: ContactDao, val context: Context) {
             while (rs?.moveToNext()!!) {
                 val name =
                     rs!!.getString(rs!!.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME))
-           // val number =
-           //    rs!!.getInt(rs!!.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.NUMBER))
+            val number =
+               rs!!.getString(rs!!.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.NUMBER))
 
-                val contact = Contact(name)
+                val contact = Contact(name,number)
                 listOfContacts.add(contact)
                 contactDao.addContact(contact)
             }
@@ -75,5 +75,8 @@ class ContactRepository(val contactDao: ContactDao, val context: Context) {
 
     fun getAllContact(): LiveData<List<Contact>> {
         return contactDao.getAllContacts()
+    }
+   suspend fun contactUpdate(oldName:String,NewName:String,number:String){
+        contactDao.contactUpdate(oldName,NewName, number)
     }
 }

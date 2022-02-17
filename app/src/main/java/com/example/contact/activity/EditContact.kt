@@ -13,8 +13,12 @@ import com.example.contact.room.Contact
 import com.example.contact.room.ContactDao
 import com.example.contact.room.ContactDatabase
 import kotlinx.android.synthetic.main.activity_add_new_contact.*
+import kotlinx.android.synthetic.main.activity_add_new_contact.editTextTextPersonName
+import kotlinx.android.synthetic.main.activity_add_new_contact.editTextTextPersonName4
+import kotlinx.android.synthetic.main.activity_add_new_contact.imageView
+import kotlinx.android.synthetic.main.activity_edit_contact.*
 
-class AddNewContact : AppCompatActivity() {
+class EditContact : AppCompatActivity() {
 
     lateinit var contactViewModel: ContactViewModel
     lateinit var contactRepository: ContactRepository
@@ -23,7 +27,7 @@ class AddNewContact : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_add_new_contact)
+        setContentView(R.layout.activity_edit_contact)
 
         contactDatabase = ContactDatabase.getDatabase(this)
         contactDao = contactDatabase.contactDao()
@@ -31,21 +35,32 @@ class AddNewContact : AppCompatActivity() {
         val viewModelFactory = ContactViewModelFactory(contactRepository)
         contactViewModel = ViewModelProviders.of(this, viewModelFactory)[ContactViewModel::class.java]
 
-        // Save button
-        button.setOnClickListener{
-            val Name="${editTextTextPersonName.text.toString()} ${editTextTextPersonName2.text.toString()}"
-            val Number=editTextTextPersonName4.text
-            val contact= Contact(Name,Number.toString())
-            contactViewModel.addContact(contact)
-            Toast.makeText(this,"Contact added", Toast.LENGTH_SHORT).show()
-            onBackPressed()
+        val intent: Intent =getIntent()
+        val name=intent.getStringExtra("changeName")
+        val oldName=name
+        editTextTextPersonName.setText(name)
+
+        val number=intent.getStringExtra("number")
+        editTextTextPersonName4.setText(number)
+
+
+
+        buttonSave.setOnClickListener{
+            val updatedName=editTextTextPersonName.text.toString()
+            val updatedNumber=editTextTextPersonName4.text.toString()
+            contactViewModel.contactUpdate(oldName!!,updatedName,updatedNumber)
+           val intent= Intent(this,ContactDetails::class.java)
+            intent.putExtra("name", updatedName)
+            intent.putExtra("number",updatedNumber)
+            Toast.makeText(this, "Contact Updated", Toast.LENGTH_SHORT).show()
+            startActivity(intent)
+            finish()
         }
 
         // Cancel button
         imageView.setOnClickListener{
             onBackPressed()
         }
-
 
 
     }

@@ -34,11 +34,15 @@ class ContactDetails : AppCompatActivity() {
 
 
         val intent: Intent =getIntent()
-//        val number=intent.getIntExtra("number",0)
-//        tvNumber.setText(number.toString())
+        val number=intent.getStringExtra("number")
+        tvNumber.setText(number.toString())
 
         val name=intent.getStringExtra("name")
         tvName.setText(name)
+
+        if (name != null) {
+            ButtonName.setText(name.get(0).toString())
+        }
 
         delete.setOnClickListener{
             contactViewModel.deleteContact(name!!)
@@ -47,9 +51,11 @@ class ContactDetails : AppCompatActivity() {
         }
 
         btnEdit.setOnClickListener{
-            val intent=Intent(this,AddNewContact::class.java)
+            val intent=Intent(this,EditContact::class.java)
             intent.putExtra("changeName",name)
+            intent.putExtra("number",number)
             startActivity(intent)
+            finish()
         }
 
         back.setOnClickListener{
