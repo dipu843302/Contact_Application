@@ -20,13 +20,14 @@ import kotlinx.android.synthetic.main.activity_main.*
         val recentsFragment=RecentsFragment()
         val contactsFragment=ContactsFragment()
 
-        setCurrentFragment(favoritesFragment)
+        setCurrentFragment(contactsFragment)
         bottomNavigationView.setOnNavigationItemSelectedListener {
 
             when(it.itemId){
+                R.id.contacts ->setCurrentFragment(contactsFragment)
                 R.id.favorites ->setCurrentFragment(favoritesFragment)
                 R.id.recents ->setCurrentFragment(recentsFragment)
-                R.id.contacts ->setCurrentFragment(contactsFragment)
+
             }
             true
         }

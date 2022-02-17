@@ -26,7 +26,6 @@ class ContactRepository(val contactDao: ContactDao, val context: Context) {
         return contactDao.getContactsAsPerSearch(search)
     }
 
-
     private var listOfContacts = ArrayList<Contact>()
     private var rs: Cursor? = null
 
