@@ -1,13 +1,9 @@
 package com.example.contact.fragment
 
-import android.Manifest
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -17,16 +13,16 @@ import android.widget.SearchView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.contact.ContactAdapter
+import com.example.contact.adapter.ContactAdapter
 import com.example.contact.ItemClickListener
 
 import com.example.contact.R
 import com.example.contact.activity.AddNewContact
 import com.example.contact.activity.ContactDetails
+import com.example.contact.adapter.SearchAdapter
 import com.example.contact.mvvm.ContactRepository
 import com.example.contact.mvvm.ContactViewModel
 import com.example.contact.mvvm.ContactViewModelFactory
@@ -36,8 +32,6 @@ import com.example.contact.room.ContactDatabase
 
 import kotlinx.android.synthetic.main.fragment_contacts.*
 import kotlinx.coroutines.launch
-import org.w3c.dom.Text
-import java.util.jar.Attributes
 
 
 class ContactsFragment : Fragment(), ItemClickListener {
@@ -46,6 +40,7 @@ class ContactsFragment : Fragment(), ItemClickListener {
     lateinit var contactDao: ContactDao
     lateinit var contactDatabase: ContactDatabase
     lateinit var contactAdapter: ContactAdapter
+    lateinit var searchAdapter: SearchAdapter
 
     private var contactList = mutableListOf<Contact>()
 
@@ -85,16 +80,31 @@ class ContactsFragment : Fragment(), ItemClickListener {
 
             @SuppressLint("NotifyDataSetChanged")
             override fun onQueryTextChange(newText: String?): Boolean {
-                lifecycleScope.launch {
-                    contactViewModel.searchContact(newText.toString()).observe(requireActivity()) {
-                        contactList.clear()
-                        contactList.addAll(it)
-                        contactAdapter.notifyDataSetChanged()
+                if (newText != null) {
+                    if (newText.isEmpty()){
+                        lifecycleScope.launch {
+                            contactViewModel.searchContact(newText.toString()).observe(requireActivity()) {
+                                contactList.clear()
+                                contactList.addAll(it)
+                                setRecyclerView()
+                            }
+                        }
+                    }else{
+                        lifecycleScope.launch {
+                            contactViewModel.searchContact(newText.toString()).observe(requireActivity()) {
+                                contactList.clear()
+                                contactList.addAll(it)
+                                setRecyclerViewForSearch()
+
+                            }
+                        }
                     }
                 }
+
                 return false
             }
         })
+
     }
 
     override fun onCreateView(
@@ -110,6 +120,12 @@ class ContactsFragment : Fragment(), ItemClickListener {
         contactAdapter = ContactAdapter(contactList, this)
         recyclerView.adapter = contactAdapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
+    }
+
+   fun setRecyclerViewForSearch(){
+        searchAdapter= SearchAdapter(contactList,this)
+       recyclerView.adapter=searchAdapter
+       recyclerView.layoutManager=LinearLayoutManager(requireContext())
     }
 
     override fun clickListener(contact: Contact, position: Int) {

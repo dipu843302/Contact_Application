@@ -1,12 +1,19 @@
-package com.example.contact
+package com.example.contact.adapter
 
 
+
+import android.graphics.Color
+import android.graphics.drawable.GradientDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.contact.ItemClickListener
+import com.example.contact.R
 import com.example.contact.room.Contact
 import kotlinx.android.synthetic.main.item_layout.view.*
+import java.util.*
+
 
 class ContactAdapter(list: List<Contact>, private val itemClickListener: ItemClickListener) :
     RecyclerView.Adapter<ContactAdapter.ViewHolder>() {
@@ -32,8 +39,18 @@ class ContactAdapter(list: List<Contact>, private val itemClickListener: ItemCli
 
         fun setData(contact: Contact) {
             itemView.apply {
+                val r = Random()
+                val red = r.nextInt(255 - 0 + 1) + 0
+                val green = r.nextInt(255 - 0 + 1) + 0
+                val blue = r.nextInt(255 - 0 + 1) + 0
+
+                val draw = GradientDrawable()
+                draw.shape = GradientDrawable.OVAL
+                draw.setColor(Color.rgb(red, green, blue))
+
                 tvName.text = contact.name
-                btnName.text=contact.name.get(0).toString()
+                btnName.text= contact.name[0].toString().uppercase()
+                btnName.background = draw
                 tvName.setOnClickListener {
                     itemClickListener.clickListener(contact, adapterPosition)
                 }

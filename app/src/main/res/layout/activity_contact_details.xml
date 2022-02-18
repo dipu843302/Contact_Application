@@ -9,7 +9,7 @@
     tools:context=".activity.ContactDetails">
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
@@ -23,27 +23,28 @@
             android:id="@+id/star"
             android:layout_width="25dp"
             android:layout_height="25dp"
-            android:layout_marginStart="180dp"
+            android:layout_marginStart="250dp"
             android:src="@drawable/ic_baseline_star_outline_24" />
 
         <ImageView
             android:id="@+id/delete"
             android:layout_width="25dp"
             android:layout_height="25dp"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="10dp"
             android:src="@drawable/ic_baseline_delete_24" />
     </LinearLayout>
 
-    <Button
+    <TextView
         android:id="@+id/ButtonName"
-        android:layout_width="59dp"
-        android:layout_height="59dp"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:gravity="center"
         android:layout_gravity="center"
         android:layout_marginTop="25dp"
         android:background="@drawable/text_background"
         android:text="A"
         android:textColor="@color/white"
-        android:textSize="20dp"
+        android:textSize="25dp"
         android:textStyle="bold" />
 
     <TextView
@@ -55,10 +56,10 @@
         android:text="Name"
         android:textColor="@color/black"
         android:textSize="25dp"
-        android:textStyle="bold" />
+      />
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:orientation="horizontal">
@@ -71,20 +72,20 @@
             android:src="@drawable/ic_outline_local_phone_24" />
 
         <ImageView
-            android:layout_width="25dp"
+            android:layout_width="wrap_content"
             android:layout_height="25dp"
-            android:layout_marginStart="80dp"
+            android:layout_marginStart="110dp"
             android:src="@drawable/ic_baseline_comment_24" />
 
         <ImageView
-            android:layout_width="25dp"
+            android:layout_width="wrap_content"
             android:layout_height="25dp"
-            android:layout_marginStart="90dp"
+            android:layout_marginStart="100dp"
             android:src="@drawable/ic_baseline_videocam_24" />
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:orientation="horizontal">
@@ -100,7 +101,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="50dp"
+            android:layout_marginStart="80dp"
             android:text="Message"
             android:textColor="#051AD3"
             android:textSize="20dp" />
@@ -108,7 +109,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="40dp"
+            android:layout_marginStart="50dp"
             android:text="Video"
             android:textColor="#051AD3"
             android:textSize="20dp" />
@@ -134,14 +135,29 @@
             android:text="+91 9876543210"
             android:textColor="@color/black"
             android:textSize="20dp"
-            android:textStyle="bold" />
+           />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_marginStart="60dp"
+            android:src="@drawable/ic_baseline_comment_24" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_marginStart="20dp"
+            android:src="@drawable/ic_baseline_videocam_24" />
+
     </LinearLayout>
 
     <Button
         android:id="@+id/btnEdit"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:drawableLeft="@drawable/ic_outline_edit_24"
+        android:background="@drawable/search_background"
         android:layout_gravity="center"
-        android:layout_marginTop="20dp"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="260dp"
         android:text="Edit Contact" />
 </LinearLayout>

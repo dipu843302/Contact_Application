@@ -1,6 +1,8 @@
 package com.example.contact.activity
 
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.GradientDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
@@ -13,6 +15,7 @@ import com.example.contact.room.Contact
 import com.example.contact.room.ContactDao
 import com.example.contact.room.ContactDatabase
 import kotlinx.android.synthetic.main.activity_contact_details.*
+import java.util.*
 
 class ContactDetails : AppCompatActivity() {
 
@@ -35,13 +38,23 @@ class ContactDetails : AppCompatActivity() {
 
         val intent: Intent =getIntent()
         val number=intent.getStringExtra("number")
-        tvNumber.setText(number.toString())
+        tvNumber.text = number.toString()
 
         val name=intent.getStringExtra("name")
-        tvName.setText(name)
+        tvName.text = name
 
         if (name != null) {
-            ButtonName.setText(name.get(0).toString())
+            val r = Random()
+            val red = r.nextInt(255 - 0 + 1) + 0
+            val green = r.nextInt(255 - 0 + 1) + 0
+            val blue = r.nextInt(255 - 0 + 1) + 0
+
+            val draw = GradientDrawable()
+            draw.shape = GradientDrawable.OVAL
+            draw.setColor(Color.rgb(red, green, blue))
+
+            ButtonName.text = name[0].toString().uppercase()
+            ButtonName.background=draw
         }
 
         delete.setOnClickListener{
