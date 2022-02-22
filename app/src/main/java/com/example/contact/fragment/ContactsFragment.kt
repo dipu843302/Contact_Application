@@ -1,27 +1,32 @@
 package com.example.contact.fragment
 
+import android.Manifest
 import android.annotation.SuppressLint
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
-
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.contact.adapter.ContactAdapter
+import androidx.test.core.app.ApplicationProvider
 import com.example.contact.ItemClickListener
-
 import com.example.contact.R
 import com.example.contact.activity.AddNewContact
 import com.example.contact.activity.ContactDetails
+import com.example.contact.adapter.ContactAdapter
 import com.example.contact.adapter.SearchAdapter
 import com.example.contact.mvvm.ContactRepository
 import com.example.contact.mvvm.ContactViewModel
@@ -29,9 +34,9 @@ import com.example.contact.mvvm.ContactViewModelFactory
 import com.example.contact.room.Contact
 import com.example.contact.room.ContactDao
 import com.example.contact.room.ContactDatabase
-
 import kotlinx.android.synthetic.main.fragment_contacts.*
 import kotlinx.coroutines.launch
+import android.provider.Settings
 
 
 class ContactsFragment : Fragment(), ItemClickListener {
@@ -44,14 +49,12 @@ class ContactsFragment : Fragment(), ItemClickListener {
 
     private var contactList = mutableListOf<Contact>()
 
-    companion object {
-        val arr = arrayOf("android.permission.READ_CONTACTS", "android.permission.WRITE_CONTACTS")
-    }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        ActivityCompat.requestPermissions(this.requireActivity(),arr,111)
+
 
         addContact.setOnClickListener {
             startActivity(Intent(this.context, AddNewContact::class.java))
@@ -100,7 +103,6 @@ class ContactsFragment : Fragment(), ItemClickListener {
                         }
                     }
                 }
-
                 return false
             }
         })
@@ -112,6 +114,7 @@ class ContactsFragment : Fragment(), ItemClickListener {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+
         return inflater.inflate(R.layout.fragment_contacts, container, false)
     }
 
@@ -132,23 +135,10 @@ class ContactsFragment : Fragment(), ItemClickListener {
         val intent = Intent(this.context, ContactDetails::class.java)
 
         intent.putExtra("name", contact.name)
-         intent.putExtra("number",contact.number)
+        intent.putExtra("number",contact.number)
         startActivity(intent)
     }
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<String?>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode==111){
-            if (grantResults[0]==PackageManager.PERMISSION_GRANTED){
-                Toast.makeText(this.context, "Permission granted", Toast.LENGTH_SHORT).show()
-            }else{
-                Toast.makeText(this.context, "Permission denied", Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
+
 }
 

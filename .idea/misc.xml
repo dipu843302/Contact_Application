@@ -7,11 +7,12 @@
         <entry key="app/src/main/res/drawable/text_background.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_add_new_contact.xml" value="0.165" />
         <entry key="app/src/main/res/layout/activity_contact_details.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/activity_contact_dto.xml" value="0.11775362318840579" />
         <entry key="app/src/main/res/layout/activity_edit_contact.xml" value="0.12537993920972645" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/fragment_contacts.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_contacts.xml" value="0.1828793774319066" />
         <entry key="app/src/main/res/layout/fragment_favorites.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/item_layout.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/item_layout.xml" value="0.375" />
         <entry key="app/src/main/res/layout/item_layout_2.xml" value="0.335" />
         <entry key="app/src/main/res/menu/menu_bottom.xml" value="0.13240740740740742" />
       </map>
