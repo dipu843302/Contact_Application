@@ -22,7 +22,20 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         requestPermission()
+        if (hasReadContact())
+            boolean=true
 
+        if (boolean) {
+            val contactsFragment = ContactsFragment()
+            setCurrentFragment(contactsFragment)
+            bottomNavigationView.setOnNavigationItemSelectedListener {
+
+                when (it.itemId) {
+                    R.id.contacts -> setCurrentFragment(contactsFragment)
+                }
+                true
+            }
+        }
     }
 
     private fun setCurrentFragment(fragment: Fragment) =
@@ -93,19 +106,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        if (hasReadContact())
-            boolean=true
 
-        if (boolean) {
-            val contactsFragment = ContactsFragment()
-            setCurrentFragment(contactsFragment)
-            bottomNavigationView.setOnNavigationItemSelectedListener {
-
-                when (it.itemId) {
-                    R.id.contacts -> setCurrentFragment(contactsFragment)
-                }
-                true
-            }
-        }
     }
 }
