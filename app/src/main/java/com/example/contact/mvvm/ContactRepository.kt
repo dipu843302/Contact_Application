@@ -34,7 +34,7 @@ class ContactRepository(val contactDao: ContactDao, val context: Context) {
         ContactsContract.CommonDataKinds.Phone.NUMBER,
         ContactsContract.CommonDataKinds.Phone._ID
     ).toTypedArray()
-
+    lateinit var arrayList:MutableList<String>
     @SuppressLint("Range")
     fun storeAllContactsInDatabase() {
         CoroutineScope(Dispatchers.IO).launch {
