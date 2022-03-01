@@ -3,6 +3,7 @@ package com.example.contact.activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProviders
 import com.example.contact.R
@@ -57,12 +58,19 @@ class EditContact : AppCompatActivity() {
             finish()
         }
 
+
+
         // Cancel button
         imageView.setOnClickListener{
             onBackPressed()
         }
 
 
+    }
+
+    private fun addEditText() {
+        val infalater = LayoutInflater.from(this).inflate(R.layout.add_number_layout, null)
+        linearLayout.addView(infalater, linearLayout.childCount)
     }
 
 }

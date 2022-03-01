@@ -4,10 +4,13 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.database.Cursor
 import android.provider.ContactsContract
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.contact.room.Contact
 import com.example.contact.room.ContactDao
+import com.example.contact.room.ContactRelation
+import com.example.contact.room.NumberEntity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -15,43 +18,47 @@ import kotlinx.coroutines.launch
 
 class ContactRepository(val contactDao: ContactDao, val context: Context) {
 
-    private val contactLiveData = MutableLiveData<List<Contact>>()
+    private val contactLiveData = MutableLiveData<List<ContactRelation>>()
 
-    val contact: LiveData<List<Contact>>
+    val contact: LiveData<List<ContactRelation>>
         get() = contactLiveData
 
 
-    @SuppressLint("Range")
-     fun getContactsAsPerSearch(search: String): LiveData<List<Contact>> {
-        return contactDao.getContactsAsPerSearch(search)
-    }
-
-    private var listOfContacts = ArrayList<Contact>()
-    private var rs: Cursor? = null
+    private var listOfContacts = ArrayList<ContactRelation>()
+    private var cursor: Cursor? = null
 
     var cols = listOf<String>(
         ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
         ContactsContract.CommonDataKinds.Phone.NUMBER,
         ContactsContract.CommonDataKinds.Phone._ID
     ).toTypedArray()
-    lateinit var arrayList:MutableList<String>
+
     @SuppressLint("Range")
     fun storeAllContactsInDatabase() {
         CoroutineScope(Dispatchers.IO).launch {
-            rs = context.contentResolver.query(
+            cursor = context.contentResolver.query(
                 ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
                 cols, null, null, ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
             )
-           rs?.moveToFirst()
-            while (rs?.moveToNext()!!) {
+            cursor?.moveToFirst()
+            while (cursor?.moveToNext()!!) {
                 val name =
-                    rs!!.getString(rs!!.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME))
-            val number =
-               rs!!.getString(rs!!.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.NUMBER))
+                    cursor!!.getString(cursor!!.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME))
 
-                val contact = Contact(name,number)
-                listOfContacts.add(contact)
+                val number =
+                    cursor!!.getString(cursor!!.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.NUMBER))
+
+                val contact = Contact(name)
+                val numberList = mutableListOf<NumberEntity>()
+                val number_contact = NumberEntity(name, number)
+                numberList.add(number_contact)
+
+                val contactRelation = ContactRelation(contact, numberList)
+                listOfContacts.add(contactRelation)
                 contactDao.addContact(contact)
+
+                contactDao.addNumber(number_contact)
+                Log.d("Dipu",number_contact.toString())
             }
 
             contactDao.getAllContacts()
@@ -72,10 +79,26 @@ class ContactRepository(val contactDao: ContactDao, val context: Context) {
         }
     }
 
-    fun getAllContact(): LiveData<List<Contact>> {
+    @SuppressLint("Range")
+    fun getContactsAsPerSearch(search: String): LiveData<List<NumberEntity>> {
+        return contactDao.getContactsAsPerSearch(search)
+    }
+    @SuppressLint("Range")
+    fun getNumberFromSearch(search: String): LiveData<List<NumberEntity>> {
+        return contactDao.getNumberFromSearch(search)
+    }
+
+    fun getAllContact(): LiveData<List<NumberEntity>> {
         return contactDao.getAllContacts()
     }
-   suspend fun contactUpdate(oldName:String,NewName:String,number:String){
-        contactDao.contactUpdate(oldName,NewName, number)
+
+    suspend fun contactUpdate(oldName: String, NewName: String, number: String) {
+        // contactDao.contactUpdate(oldName,NewName, number)
+    }
+    fun addNumber(numberEntity: NumberEntity){
+        CoroutineScope(Dispatchers.IO).launch {
+            contactDao.addNumber(numberEntity)
+        }
+
     }
 }

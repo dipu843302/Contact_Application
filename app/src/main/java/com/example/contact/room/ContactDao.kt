@@ -10,16 +10,25 @@ interface ContactDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun addContact(contacts: Contact)
 
-    @Query("SELECT * FROM contact_table WHERE name LIKE :search or number like :search" )
-    fun getContactsAsPerSearch(search: String): LiveData<List<Contact>>
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun addNumber(numberEntity: NumberEntity)
 
-    @Query("SELECT * FROM contact_table")
-    fun getAllContacts(): LiveData<List<Contact>>
+    @Query("SELECT * FROM number_table WHERE name LIKE :search" )
+    fun getContactsAsPerSearch(search: String): LiveData<List<NumberEntity>>
 
-    @Query("Delete FROM contact_table WHERE name=:name")
+    @Query("SELECT * FROM number_table")
+    fun getAllContacts(): LiveData<List<NumberEntity>>
+
+    @Query("Delete FROM number_table WHERE name=:name")
     fun deleteContact(name: String)
 
-    @Query("Update contact_table Set name=:NewName,number=:number WHERE name=:oldName")
-    suspend fun contactUpdate(oldName:String,NewName:String,number:String)
+    @Query("Update number_table Set name=:NewName")
+    suspend fun contactUpdate(NewName:String)
+
+    @Query("Update number_table Set number=:number ")
+    suspend fun numberUpdate(number:String)
+
+    @Query("SELECT * FROM number_table WHERE name LIKE :search or number like :search" )
+    fun getNumberFromSearch(search: String): LiveData<List<NumberEntity>>
 
 }

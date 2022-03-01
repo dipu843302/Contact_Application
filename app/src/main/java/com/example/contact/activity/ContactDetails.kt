@@ -1,14 +1,17 @@
 package com.example.contact.activity
 
 import android.Manifest
+import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.provider.Telephony
+import android.view.LayoutInflater
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -21,6 +24,7 @@ import com.example.contact.mvvm.ContactViewModelFactory
 import com.example.contact.room.ContactDao
 import com.example.contact.room.ContactDatabase
 import kotlinx.android.synthetic.main.activity_contact_details.*
+import kotlinx.android.synthetic.main.number_layout.*
 import java.util.*
 
 
@@ -93,6 +97,9 @@ class ContactDetails : AppCompatActivity() {
         send_message.setOnClickListener{
             sendSMS()
         }
+       // for (i in 1..3){
+            //NumberLayout()
+      //  }
 
     }
 
@@ -136,5 +143,16 @@ class ContactDetails : AppCompatActivity() {
             sendIntent.setPackage(defaultSmsPackageName)
         }
         startActivity(sendIntent)
+    }
+
+    @SuppressLint("InflateParams")
+    private fun NumberLayout(){
+      //  val view:View=layoutInflater.inflate(R.layout.number_layout,null)
+       // number_linearlayout.addView(view)
+        val vi =
+            applicationContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val v: View = vi.inflate(R.layout.number_layout, null)
+        number_linearlayout.addView(v)
+
     }
 }

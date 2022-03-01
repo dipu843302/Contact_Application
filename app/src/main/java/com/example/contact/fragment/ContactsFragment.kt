@@ -1,7 +1,6 @@
 package com.example.contact.fragment
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.content.Intent
@@ -37,24 +36,20 @@ import com.example.contact.room.ContactDatabase
 import kotlinx.android.synthetic.main.fragment_contacts.*
 import kotlinx.coroutines.launch
 import android.provider.Settings
-
+import com.example.contact.room.NumberEntity
 
 class ContactsFragment : Fragment(), ItemClickListener {
-    lateinit var contactViewModel: ContactViewModel
-    lateinit var contactRepository: ContactRepository
-    lateinit var contactDao: ContactDao
-    lateinit var contactDatabase: ContactDatabase
-    lateinit var contactAdapter: ContactAdapter
-    lateinit var searchAdapter: SearchAdapter
+    private lateinit var contactViewModel: ContactViewModel
+    private lateinit var contactRepository: ContactRepository
+    private lateinit var contactDao: ContactDao
+    private lateinit var contactDatabase: ContactDatabase
+    private lateinit var contactAdapter: ContactAdapter
+    private lateinit var searchAdapter: SearchAdapter
 
-    private var contactList = mutableListOf<Contact>()
-
-
+    private var contactList = mutableListOf<NumberEntity>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-
 
         addContact.setOnClickListener {
             startActivity(Intent(this.context, AddNewContact::class.java))
@@ -81,25 +76,26 @@ class ContactsFragment : Fragment(), ItemClickListener {
                 return false
             }
 
-            @SuppressLint("NotifyDataSetChanged")
             override fun onQueryTextChange(newText: String?): Boolean {
                 if (newText != null) {
-                    if (newText.isEmpty()){
+                    if (newText.isEmpty()) {
                         lifecycleScope.launch {
-                            contactViewModel.searchContact(newText.toString()).observe(requireActivity()) {
-                                contactList.clear()
-                                contactList.addAll(it)
-                                setRecyclerView()
-                            }
+                            contactViewModel.searchContact(newText.toString())
+                                .observe(requireActivity()) {
+                                    contactList.clear()
+                                    contactList.addAll(it)
+                                    setRecyclerView()
+                                }
                         }
-                    }else{
+                    } else {
                         lifecycleScope.launch {
-                            contactViewModel.searchContact(newText.toString()).observe(requireActivity()) {
-                                contactList.clear()
-                                contactList.addAll(it)
-                                setRecyclerViewForSearch()
+                            contactViewModel.getNumberFromSearch(newText.toString())
+                                .observe(requireActivity()) {
+                                    contactList.clear()
+                                    contactList.addAll(it)
+                                    setRecyclerViewForSearch()
 
-                            }
+                                }
                         }
                     }
                 }
@@ -114,31 +110,26 @@ class ContactsFragment : Fragment(), ItemClickListener {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-
         return inflater.inflate(R.layout.fragment_contacts, container, false)
     }
 
 
     private fun setRecyclerView() {
         contactAdapter = ContactAdapter(contactList, this)
-        recyclerView.adapter = contactAdapter
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        RecyclerView.adapter = contactAdapter
+        RecyclerView.layoutManager = LinearLayoutManager(requireContext())
     }
 
-   fun setRecyclerViewForSearch(){
-        searchAdapter= SearchAdapter(contactList,this)
-       recyclerView.adapter=searchAdapter
-       recyclerView.layoutManager=LinearLayoutManager(requireContext())
+    fun setRecyclerViewForSearch() {
+        searchAdapter = SearchAdapter(contactList, this)
+        RecyclerView.adapter = searchAdapter
+        RecyclerView.layoutManager = LinearLayoutManager(requireContext())
     }
 
-    override fun clickListener(contact: Contact, position: Int) {
+    override fun clickListener(numberEntity: NumberEntity, position: Int) {
         val intent = Intent(this.context, ContactDetails::class.java)
-
-        intent.putExtra("name", contact.name)
-        intent.putExtra("number",contact.number)
+        intent.putExtra("name", numberEntity.name)
+        intent.putExtra("number", numberEntity.number)
         startActivity(intent)
     }
-
-
 }
-

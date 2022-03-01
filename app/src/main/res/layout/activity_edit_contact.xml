@@ -171,18 +171,7 @@
         app:layout_constraintHorizontal_bias="0.632"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName3" />
-    <EditText
-        android:id="@+id/editTextTextPersonName5"
-        android:layout_width="237dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="4dp"
-        android:ems="10"
-        android:hint="Mobile"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.632"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName4" />
+
     <ImageView
         android:id="@+id/imageView5"
         android:layout_width="wrap_content"
@@ -205,4 +194,5 @@
         app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName3"
         app:layout_constraintVertical_bias="0.62"
         app:srcCompat="@drawable/ic_baseline_local_phone_24" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

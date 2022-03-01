@@ -6,6 +6,7 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.example.contact.ItemClickListener
 import com.example.contact.room.Contact
+import com.example.contact.room.NumberEntity
 import kotlinx.android.synthetic.main.item_layout.view.*
 import kotlinx.android.synthetic.main.item_layout_2.view.*
 import java.util.*
@@ -13,7 +14,7 @@ import java.util.*
 class SearchViewHolder(itemView: View, private val itemClickListener: ItemClickListener) :
     RecyclerView.ViewHolder(itemView) {
 
-    fun setData2(contact: Contact) {
+    fun setData2(numberEntity: NumberEntity) {
         itemView.apply {
             val r = Random()
             val red = r.nextInt(255 - 0 + 1) + 0
@@ -24,12 +25,12 @@ class SearchViewHolder(itemView: View, private val itemClickListener: ItemClickL
             draw.shape = GradientDrawable.OVAL
             draw.setColor(Color.rgb(red, green, blue))
 
-            tvName2.text = contact.name
-            btnName2.text= contact.name[0].toString().uppercase()
+            tvName2.text = numberEntity.name
+            btnName2.text= numberEntity.name[0].toString().uppercase()
             btnName2.background = draw;
-            textNumber.text=contact.number
+          //  textNumber.text=contact.number
             tvName2.setOnClickListener {
-                itemClickListener.clickListener(contact, adapterPosition)
+                itemClickListener.clickListener(numberEntity, adapterPosition)
             }
         }
     }

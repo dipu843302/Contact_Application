@@ -2,12 +2,13 @@ package com.example.contact.mvvm
 
 import androidx.lifecycle.*
 import com.example.contact.room.Contact
+import com.example.contact.room.NumberEntity
 import kotlinx.coroutines.launch
 
 
 class ContactViewModel(private val contactRepository: ContactRepository) : ViewModel() {
 
-    fun fetchAllContact(): LiveData<List<Contact>> {
+    fun fetchAllContact(): LiveData<List<NumberEntity>> {
         contactRepository.storeAllContactsInDatabase()
         return contactRepository.getAllContact()
     }
@@ -19,6 +20,9 @@ class ContactViewModel(private val contactRepository: ContactRepository) : ViewM
     fun searchContact(search: String) =
         contactRepository.getContactsAsPerSearch("%$search%")
 
+    fun getNumberFromSearch(search: String) =
+        contactRepository.getNumberFromSearch("%$search%")
+
     fun deleteContact(name: String) {
         contactRepository.delete(name)
     }
@@ -29,4 +33,7 @@ class ContactViewModel(private val contactRepository: ContactRepository) : ViewM
         }
     }
 
+    fun addNumber(numberEntity: NumberEntity){
+        contactRepository.addNumber(numberEntity)
+    }
 }

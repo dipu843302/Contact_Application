@@ -7,11 +7,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.contact.ItemClickListener
 import com.example.contact.R
 import com.example.contact.room.Contact
+import com.example.contact.room.NumberEntity
 
-class SearchAdapter(list: List<Contact>, private val itemClickListener: ItemClickListener) :
+class SearchAdapter(list: List<NumberEntity>, private val itemClickListener: ItemClickListener) :
     RecyclerView.Adapter<SearchViewHolder>(){
 
-    private var list: List<Contact> = list
+    private var list: List<NumberEntity> = list
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_layout_2, parent, false)
         return SearchViewHolder(view, itemClickListener)
