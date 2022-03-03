@@ -1,9 +1,13 @@
 package com.example.contact.activity
 
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProviders
 import com.example.contact.R
@@ -13,11 +17,13 @@ import com.example.contact.mvvm.ContactViewModelFactory
 import com.example.contact.room.Contact
 import com.example.contact.room.ContactDao
 import com.example.contact.room.ContactDatabase
+import com.github.dhaval2404.imagepicker.ImagePicker
 import kotlinx.android.synthetic.main.activity_add_new_contact.*
 import kotlinx.android.synthetic.main.activity_add_new_contact.editTextTextPersonName
 import kotlinx.android.synthetic.main.activity_add_new_contact.editTextTextPersonName4
 import kotlinx.android.synthetic.main.activity_add_new_contact.imageView
 import kotlinx.android.synthetic.main.activity_edit_contact.*
+import kotlinx.android.synthetic.main.add_number_layout.*
 
 class EditContact : AppCompatActivity() {
 
@@ -58,19 +64,61 @@ class EditContact : AppCompatActivity() {
             finish()
         }
 
-
-
+        Camera.setOnClickListener {
+            ImagePicker.with(this)
+                .crop()                    //Crop image(Optional), Check Customization for more option
+                .compress(1024)            //Final image size will be less than 1 MB(Optional)
+                .maxResultSize(
+                    1080,
+                    1080
+                )    //Final image resolution will be less than 1080 x 1080(Optional)
+                .start()
+        }
         // Cancel button
         imageView.setOnClickListener{
             onBackPressed()
         }
 
+        addEditTextDynamic()
 
+    } // set image
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        val uri: Uri = data?.data!!
+        Camera.setImageURI(uri)
     }
 
-    private fun addEditText() {
+
+    private fun addEditTextDynamic() {
         val infalater = LayoutInflater.from(this).inflate(R.layout.add_number_layout, null)
-        linearLayout.addView(infalater, linearLayout.childCount)
+        ContainerlinearLayout.addView(infalater, ContainerlinearLayout.childCount)
+
+        removeNumber.setOnClickListener {
+            removeEditText(infalater)
+        }
+        textNumber.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+                if (p0 != null) {
+                    if (p0.length >= 1) {
+                        addEditTextDynamic()
+                    }
+                }
+            }
+
+        })
+    }
+
+    private fun removeEditText(view: View) {
+        ContainerlinearLayout.removeView(view)
+
     }
 
 }

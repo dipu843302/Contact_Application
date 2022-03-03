@@ -8,7 +8,7 @@
     android:layout_width="40dp"
     android:layout_height="40dp">
     <TextView
-        android:id="@+id/btnName"
+        android:id="@+id/profileImage"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:textSize="20dp"

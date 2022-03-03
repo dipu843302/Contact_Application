@@ -9,7 +9,7 @@
         android:layout_width="237dp"
         android:layout_height="48dp"
         android:textColor="@color/black"
-        android:hint="Enter number"
+        android:hint="Mobile"
        />
      <ImageView
          android:id="@+id/removeNumber"

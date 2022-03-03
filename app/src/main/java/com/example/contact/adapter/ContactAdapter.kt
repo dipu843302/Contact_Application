@@ -1,13 +1,14 @@
 package com.example.contact.adapter
 
 
-
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.contact.ItemClickListener
 import com.example.contact.R
 import com.example.contact.room.Contact
@@ -38,6 +39,7 @@ class ContactAdapter(list: List<NumberEntity>, private val itemClickListener: It
     class ViewHolder(itemView: View, private val itemClickListener: ItemClickListener) :
         RecyclerView.ViewHolder(itemView) {
 
+        @SuppressLint("UseCompatLoadingForDrawables")
         fun setData(numberEntity: NumberEntity) {
             itemView.apply {
                 val r = Random()
@@ -50,8 +52,20 @@ class ContactAdapter(list: List<NumberEntity>, private val itemClickListener: It
                 draw.setColor(Color.rgb(red, green, blue))
 
                 tvName.text = numberEntity.name
-                btnName.text= numberEntity.name[0].toString().uppercase()
-                btnName.background = draw
+
+//                //  if(numberEntity.photo.length!=null){
+//                    Glide.with(context)
+//                        .asBitmap()
+//                        .load(numberEntity.photo)
+//                        .into(profileImage)
+                //profileImage.background =
+                 //   resources.getDrawable(resources.getIdentifier("name", "id", numberEntity.photo))
+                //  profileImage.background=numberEntity.photo
+                //  }else{
+                    profileImage.text= numberEntity.name[0].toString().uppercase()
+                  profileImage.background = draw
+                //  }
+
                 tvName.setOnClickListener {
                     itemClickListener.clickListener(numberEntity, adapterPosition)
                 }

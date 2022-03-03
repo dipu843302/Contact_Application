@@ -1,8 +1,12 @@
 package com.example.contact.mvvm
 
+import android.R
 import android.annotation.SuppressLint
+import android.content.ContentUris
 import android.content.Context
 import android.database.Cursor
+import android.net.Uri
+import android.provider.Contacts
 import android.provider.ContactsContract
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -48,9 +52,15 @@ class ContactRepository(val contactDao: ContactDao, val context: Context) {
                 val number =
                     cursor!!.getString(cursor!!.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.NUMBER))
 
+                val id=cursor!!.getLong(cursor!!.getColumnIndex(ContactsContract.CommonDataKinds.Photo._ID))
+
+                val uri: Uri = ContentUris.withAppendedId(Contacts.People.CONTENT_URI, id)
+                val bitmap = Contacts.People.loadContactPhoto(context, uri, R.drawable.ic_menu_report_image, null)
+
+
                 val contact = Contact(name)
                 val numberList = mutableListOf<NumberEntity>()
-                val number_contact = NumberEntity(name, number)
+                val number_contact = NumberEntity(name, number,bitmap.toString())
                 numberList.add(number_contact)
 
                 val contactRelation = ContactRelation(contact, numberList)

@@ -1,6 +1,7 @@
 package com.example.contact.activity
 
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.system.Os.remove
@@ -19,6 +20,7 @@ import com.example.contact.room.Contact
 import com.example.contact.room.ContactDao
 import com.example.contact.room.ContactDatabase
 import com.example.contact.room.NumberEntity
+import com.github.dhaval2404.imagepicker.ImagePicker
 import kotlinx.android.synthetic.main.activity_add_new_contact.*
 import kotlinx.android.synthetic.main.add_number_layout.*
 
@@ -45,11 +47,11 @@ class AddNewContact : AppCompatActivity() {
             val Name =
                 "${editTextTextPersonName.text.toString()} ${editTextTextPersonName2.text.toString()}"
             val Number = editTextTextPersonName4.text
-            val number = NumberEntity(Name, Number.toString())
+        //    val number = NumberEntity(Name, Number.toString())
             val contact = Contact(Name)
             contactViewModel.addContact(contact)
 
-            contactViewModel.addNumber(number)
+          //  contactViewModel.addNumber(number)
             Toast.makeText(this, "Contact added", Toast.LENGTH_SHORT).show()
             onBackPressed()
         }
@@ -59,7 +61,28 @@ class AddNewContact : AppCompatActivity() {
             onBackPressed()
         }
 
+        // take a image from gallery
+
+        textView5.setOnClickListener {
+            ImagePicker.with(this)
+                .crop()                    //Crop image(Optional), Check Customization for more option
+                .compress(1024)            //Final image size will be less than 1 MB(Optional)
+                .maxResultSize(
+                    1080,
+                    1080
+                )    //Final image resolution will be less than 1080 x 1080(Optional)
+                .start()
+        }
+        // Dynamic view adding
         addEditText()
+    }
+
+    // set image
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        val uri: Uri = data?.data!!
+        imageView3.setImageURI(uri)
     }
 
     private fun addEditText() {

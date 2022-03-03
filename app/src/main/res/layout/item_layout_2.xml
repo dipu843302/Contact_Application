@@ -9,10 +9,11 @@
     android:layout_height="wrap_content">
     <TextView
         android:id="@+id/btnName2"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:background="@drawable/text_background"
         android:text="A"
+        android:layout_marginTop="5dp"
         android:gravity="center"
         android:textColor="@color/white"
         android:textSize="20dp"
@@ -28,27 +29,27 @@
         android:layout_toRightOf="@+id/cardview"
         android:text="Dipu Kumar"
         android:textColor="@color/black"
-        android:textSize="20dp" />
+        android:textSize="18dp" />
 
     <TextView
         android:id="@+id/Mobile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="70dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="28dp"
         android:text="Mobile"
         android:textColor="#4C4848"
-        android:textSize="18dp" />
+        android:textSize="16dp" />
 
     <TextView
         android:id="@+id/textNumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="28dp"
         android:layout_toRightOf="@+id/Mobile"
         android:text="9876543212"
         android:textColor="#4C4848"
-        android:textSize="18dp" />
+        android:textSize="16dp" />
 
 </RelativeLayout>

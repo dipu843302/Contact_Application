@@ -9,8 +9,10 @@ data class NumberEntity
     (
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name="name")var name: String,
-    @ColumnInfo(name="number")var number: String
-    )
+    @ColumnInfo(name="number")var number: String,
+    @ColumnInfo(name="photo")var photo: String,
+
+)
 
 
 

@@ -94,6 +94,9 @@ class ContactDetails : AppCompatActivity() {
         call2.setOnClickListener{
             CallButton()
         }
+        tvNumber.setOnClickListener{
+            CallButton()
+        }
         send_message.setOnClickListener{
             sendSMS()
         }
