@@ -27,9 +27,9 @@ class ContactViewModel(private val contactRepository: ContactRepository) : ViewM
         contactRepository.delete(name)
     }
 
-    fun contactUpdate(oldName:String,NewName:String,number:String){
+    fun contactUpdate(numberEntity: NumberEntity){
         viewModelScope.launch {
-            contactRepository.contactUpdate(oldName,NewName,number)
+            contactRepository.contactUpdate(numberEntity)
         }
     }
 

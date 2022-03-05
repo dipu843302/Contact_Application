@@ -27,8 +27,8 @@ class SearchViewHolder(itemView: View, private val itemClickListener: ItemClickL
 
             tvName2.text = numberEntity.name
             btnName2.text= numberEntity.name[0].toString().uppercase()
-            btnName2.background = draw;
-          //  textNumber.text=contact.number
+            btnName2.background = draw
+            textNumber.text=numberEntity.number
             tvName2.setOnClickListener {
                 itemClickListener.clickListener(numberEntity, adapterPosition)
             }

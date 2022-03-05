@@ -35,6 +35,8 @@ class AddNewContact : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_new_contact)
 
+
+
         contactDatabase = ContactDatabase.getDatabase(this)
         contactDao = contactDatabase.contactDao()
         contactRepository = ContactRepository(contactDao, this)
@@ -42,16 +44,20 @@ class AddNewContact : AppCompatActivity() {
         contactViewModel =
             ViewModelProviders.of(this, viewModelFactory)[ContactViewModel::class.java]
 
+
         // Save button
         button.setOnClickListener {
+
+
             val Name =
                 "${editTextTextPersonName.text.toString()} ${editTextTextPersonName2.text.toString()}"
-            val Number = editTextTextPersonName4.text
-        //    val number = NumberEntity(Name, Number.toString())
+            val numberPhone = editTextTextPersonName4.text.toString()
+            val num=NumberEntity(Name,numberPhone,"sdf")
+            contactViewModel.addNumber(num)
+
             val contact = Contact(Name)
             contactViewModel.addContact(contact)
 
-          //  contactViewModel.addNumber(number)
             Toast.makeText(this, "Contact added", Toast.LENGTH_SHORT).show()
             onBackPressed()
         }

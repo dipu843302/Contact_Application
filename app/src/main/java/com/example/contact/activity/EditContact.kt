@@ -17,6 +17,7 @@ import com.example.contact.mvvm.ContactViewModelFactory
 import com.example.contact.room.Contact
 import com.example.contact.room.ContactDao
 import com.example.contact.room.ContactDatabase
+import com.example.contact.room.NumberEntity
 import com.github.dhaval2404.imagepicker.ImagePicker
 import kotlinx.android.synthetic.main.activity_add_new_contact.*
 import kotlinx.android.synthetic.main.activity_add_new_contact.editTextTextPersonName
@@ -55,7 +56,11 @@ class EditContact : AppCompatActivity() {
         buttonSave.setOnClickListener{
             val updatedName=editTextTextPersonName.text.toString()
             val updatedNumber=editTextTextPersonName4.text.toString()
-            contactViewModel.contactUpdate(oldName!!,updatedName,updatedNumber)
+
+            val numberEntity=NumberEntity(updatedName,updatedNumber,"")
+
+            contactViewModel.contactUpdate(numberEntity)
+
            val intent= Intent(this,ContactDetails::class.java)
             intent.putExtra("name", updatedName)
             intent.putExtra("number",updatedNumber)

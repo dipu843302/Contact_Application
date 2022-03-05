@@ -22,8 +22,9 @@ interface ContactDao {
     @Query("Delete FROM number_table WHERE name=:name")
     fun deleteContact(name: String)
 
-    @Query("Update number_table Set name=:NewName")
-    suspend fun contactUpdate(NewName:String)
+  //  @Query("Update number_table Set name=:NewName")
+    @Update
+    suspend fun contactUpdate(numberEntity: NumberEntity)
 
     @Query("Update number_table Set number=:number ")
     suspend fun numberUpdate(number:String)

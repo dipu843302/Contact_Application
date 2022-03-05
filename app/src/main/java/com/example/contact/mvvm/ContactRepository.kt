@@ -102,8 +102,8 @@ class ContactRepository(val contactDao: ContactDao, val context: Context) {
         return contactDao.getAllContacts()
     }
 
-    suspend fun contactUpdate(oldName: String, NewName: String, number: String) {
-        // contactDao.contactUpdate(oldName,NewName, number)
+    suspend fun contactUpdate(numberEntity: NumberEntity) {
+         contactDao.contactUpdate(numberEntity)
     }
     fun addNumber(numberEntity: NumberEntity){
         CoroutineScope(Dispatchers.IO).launch {
