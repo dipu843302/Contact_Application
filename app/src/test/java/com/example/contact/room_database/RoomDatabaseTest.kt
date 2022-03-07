@@ -31,6 +31,15 @@ class RoomDatabaseTest {
         val result=ContactDatabase.getDatabase(context)
         Truth.assertThat(result).isEqualTo(contactDatabase)
     }
+    @Test
+    fun getContactDatabase_NullCheck(){
+        mockkObject(ContactDatabase)
+        every {
+            ContactDatabase.getDatabase(context)
+        }returns contactDatabase
+         val result=ContactDatabase.getDatabase(context)
+        Truth.assertThat(result).isNotNull()
+    }
 
 
 }
