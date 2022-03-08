@@ -9,8 +9,10 @@ import kotlinx.coroutines.launch
 class ContactViewModel(private val contactRepository: ContactRepository) : ViewModel() {
 
     fun fetchAllContact(): LiveData<List<NumberEntity>> {
-        contactRepository.storeAllContactsInDatabase()
         return contactRepository.getAllContact()
+    }
+    fun storeData(){
+        contactRepository.storeAllContactsInDatabase()
     }
 
     fun addContact(contact: Contact) {

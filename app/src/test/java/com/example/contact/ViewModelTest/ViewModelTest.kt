@@ -13,8 +13,10 @@ import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.robolectric.annotation.Config
 
 @RunWith(AndroidJUnit4::class)
+@Config(manifest = Config.NONE)
 class ViewModelTest {
 
     private val contactLiveData = MutableLiveData<List<NumberEntity>>()
@@ -35,7 +37,7 @@ class ViewModelTest {
     fun setUp() {
         MockKAnnotations.init(this)
         contactViewModel = ContactViewModel(contactRepository)
-        liveData = contactLiveData
+        // liveData = contactLiveData
     }
 
     @Test
@@ -54,27 +56,28 @@ class ViewModelTest {
 
     @Test
     fun addContact() {
-        every {
+        coEvery {
             contactRepository.addContact(contact)
         } returns Unit
         runBlocking {
             contactViewModel.addContact(contact)
         }
-        verify {
+        coVerify {
             contactRepository.addContact(contact)
         }
     }
 
     @Test
     fun searchContact() {
-        every {
-            contactRepository.getContactsAsPerSearch("name")
-        } returns liveData
+        val mutableList = mutableListOf<NumberEntity>()
+        coEvery {
+            contactRepository.getContactsAsPerSearch("name").value
+        } returns mutableList
 
         runBlocking {
-            contactViewModel.searchContact("name")
+            contactViewModel.searchContact("%name%")
         }
-        verify {
+        coVerify {
             contactRepository.getContactsAsPerSearch("name")
         }
     }
@@ -93,35 +96,51 @@ class ViewModelTest {
     }
 
     @Test
-    fun getAllContact(){
-        every {
-            contactRepository.getAllContact()
-        }returns liveData
+    fun getAllContact() {
+        val mutableList3 = mutableListOf<NumberEntity>()
+        coEvery {
+            contactRepository.getAllContact().value
+        } returns mutableList3
         runBlocking {
             contactViewModel.fetchAllContact()
         }
-        verify {
+        coVerify {
             contactRepository.getAllContact()
-        }
-    }
-    @Test
-    fun searchByNumber(){
-        every {
-            contactRepository.getNumberFromSearch("number")
-        }returns liveData
-        runBlocking {
-            contactViewModel.getNumberFromSearch("number")
-        }
-        verify {
-            contactRepository.getNumberFromSearch("number")
         }
     }
 
     @Test
-    fun contactUpdate(){
+    fun storeData() {
+        every {
+            contactRepository.storeAllContactsInDatabase()
+        } returns Unit
+        runBlocking {
+            contactViewModel.storeData()
+        }
+        verify {
+            contactRepository.storeAllContactsInDatabase()
+        }
+    }
+
+    @Test
+    fun searchByNumber() {
+        val mutableList2 = mutableListOf<NumberEntity>()
+        coEvery {
+            contactRepository.getNumberFromSearch("number").value
+        } returns mutableList2
+        runBlocking {
+            contactViewModel.getNumberFromSearch("number")
+        }
+        coVerify {
+            contactRepository.getNumberFromSearch("number").value
+        }
+    }
+
+    @Test
+    fun contactUpdate() {
         coEvery {
             contactRepository.contactUpdate(numberEntity)
-        }returns Unit
+        } returns Unit
         runBlocking {
             contactViewModel.contactUpdate(numberEntity)
         }

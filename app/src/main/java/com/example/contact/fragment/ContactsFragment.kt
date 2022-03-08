@@ -63,7 +63,7 @@ class ContactsFragment : Fragment(), ItemClickListener {
         contactViewModel =
             ViewModelProviders.of(this, viewModelFactory)[ContactViewModel::class.java]
 
-
+        contactViewModel.storeData()
         contactViewModel.fetchAllContact().observe(viewLifecycleOwner, Observer {
             contactList.clear()
             contactList.addAll(it)

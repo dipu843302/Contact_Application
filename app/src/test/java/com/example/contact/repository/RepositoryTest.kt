@@ -43,7 +43,7 @@ class RepositoryTest {
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
-        userData = contactLiveData
+       userData = contactLiveData
         contactRepository = ContactRepository(contactDao, context)
     }
 
@@ -132,6 +132,7 @@ class RepositoryTest {
 
     @Test
     fun storeAllContactsInDatabase() {
+       // val mutableList= mutableListOf<NumberEntity>()
         every {
             mockRepository.storeAllContactsInDatabase()
         } returns Unit
