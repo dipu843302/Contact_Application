@@ -35,8 +35,6 @@ class ContactDetails : AppCompatActivity() {
     lateinit var contactDao: ContactDao
     lateinit var contactDatabase: ContactDatabase
 
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_contact_details)
@@ -48,10 +46,53 @@ class ContactDetails : AppCompatActivity() {
         contactViewModel = ViewModelProviders.of(this, viewModelFactory)[ContactViewModel::class.java]
 
 
-
         val intent: Intent = intent
         val number=intent.getStringExtra("number")
         tvNumber.text = number.toString()
+
+
+        val number2=intent.getStringExtra("number2")
+        if (number2 != null) {
+            if ( number2.isNotEmpty()) {
+                linearlayout2.visibility=View.VISIBLE
+                tvNumber2.text = number2.toString()
+            }
+        }
+        val number3=intent.getStringExtra("number3")
+        if (number3!=null) {
+            if (number3.isNotEmpty()) {
+                linearlayout3.visibility = View.VISIBLE
+                tvNum3.text = number3.toString()
+            }
+        }
+        val number4=intent.getStringExtra("number4")
+        if (number4!=null) {
+            if (number4.isNotEmpty()) {
+                linearlayout4.visibility = View.VISIBLE
+                tvNumber4.text = number4.toString()
+            }
+        }
+        // call by phone icon
+        callPhone2.setOnClickListener{
+            CallButton()
+        }
+        callPhone3.setOnClickListener{
+            CallButton()
+        }
+        callPhone4.setOnClickListener{
+            CallButton()
+        }
+
+        // call by number
+        tvNumber2.setOnClickListener{
+            CallButton()
+        }
+        tvNum3.setOnClickListener{
+            CallButton()
+        }
+        tvNumber4.setOnClickListener{
+            CallButton()
+        }
 
         val name=intent.getStringExtra("name")
         tvName.text = name

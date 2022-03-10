@@ -1,26 +1,16 @@
 package com.example.contact.fragment
 
-import android.Manifest
-import android.app.AlertDialog
-import android.content.DialogInterface
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
-import android.widget.Toast
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.test.core.app.ApplicationProvider
 import com.example.contact.ItemClickListener
 import com.example.contact.R
 import com.example.contact.activity.AddNewContact
@@ -30,12 +20,10 @@ import com.example.contact.adapter.SearchAdapter
 import com.example.contact.mvvm.ContactRepository
 import com.example.contact.mvvm.ContactViewModel
 import com.example.contact.mvvm.ContactViewModelFactory
-import com.example.contact.room.Contact
 import com.example.contact.room.ContactDao
 import com.example.contact.room.ContactDatabase
 import kotlinx.android.synthetic.main.fragment_contacts.*
 import kotlinx.coroutines.launch
-import android.provider.Settings
 import com.example.contact.room.NumberEntity
 
 class ContactsFragment : Fragment(), ItemClickListener {
@@ -129,7 +117,10 @@ class ContactsFragment : Fragment(), ItemClickListener {
     override fun clickListener(numberEntity: NumberEntity, position: Int) {
         val intent = Intent(this.context, ContactDetails::class.java)
         intent.putExtra("name", numberEntity.name)
-        intent.putExtra("number", numberEntity.number)
+        intent.putExtra("number", numberEntity.number1)
+        intent.putExtra("number2", numberEntity.number2)
+        intent.putExtra("number3", numberEntity.number3)
+        intent.putExtra("number4", numberEntity.number4)
         startActivity(intent)
     }
 }

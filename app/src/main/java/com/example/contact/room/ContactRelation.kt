@@ -5,7 +5,7 @@ import androidx.room.Relation
 
 data class ContactRelation
     (
-    @Embedded var contact: Contact, @Relation(
+    @Embedded var contactEntity: ContactEntity, @Relation(
     parentColumn = "name",
     entityColumn = "name"
 )

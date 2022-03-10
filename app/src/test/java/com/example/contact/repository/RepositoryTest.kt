@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.contact.mvvm.ContactRepository
-import com.example.contact.room.Contact
+import com.example.contact.room.ContactEntity
 import com.example.contact.room.ContactDao
 import com.example.contact.room.NumberEntity
 import io.mockk.MockKAnnotations
@@ -34,7 +34,7 @@ class RepositoryTest {
     lateinit var contactDao: ContactDao
 
     @MockK
-    lateinit var contact: Contact
+    lateinit var contactEntity: ContactEntity
 
     @MockK
     lateinit var numberEntity: NumberEntity
@@ -68,13 +68,13 @@ class RepositoryTest {
     @Test
     fun addContact() {
         every {
-            contactDao.addContact(contact)
+            contactDao.addContact(contactEntity)
         } returns Unit
         runBlocking {
-            contactRepository.addContact(contact)
+            contactRepository.addContact(contactEntity)
         }
         coVerify {
-            contactDao.addContact(contact)
+            contactDao.addContact(contactEntity)
         }
     }
 

@@ -2,11 +2,9 @@ package com.example.contact.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Adapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.contact.ItemClickListener
 import com.example.contact.R
-import com.example.contact.room.Contact
 import com.example.contact.room.NumberEntity
 
 class SearchAdapter(list: List<NumberEntity>, private val itemClickListener: ItemClickListener) :

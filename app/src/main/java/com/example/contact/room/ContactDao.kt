@@ -8,12 +8,12 @@ import androidx.room.*
 interface ContactDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun addContact(contacts: Contact)
+    fun addContact(contacts: ContactEntity)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun addNumber(numberEntity: NumberEntity)
 
-    @Query("SELECT * FROM number_table WHERE name LIKE :search" )
+    @Query("SELECT * FROM number_table WHERE name LIKE '%' || :search || '%' " )
     fun getContactsAsPerSearch(search: String): LiveData<List<NumberEntity>>
 
     @Query("SELECT * FROM number_table")
@@ -26,10 +26,10 @@ interface ContactDao {
     @Update
     suspend fun contactUpdate(numberEntity: NumberEntity)
 
-    @Query("Update number_table Set number=:number ")
+    @Query("Update number_table Set number1=:number ")
     suspend fun numberUpdate(number:String)
 
-    @Query("SELECT * FROM number_table WHERE name LIKE :search or number like :search" )
+    @Query("SELECT * FROM number_table WHERE name LIKE :search or number1 like :search" )
     fun getNumberFromSearch(search: String): LiveData<List<NumberEntity>>
 
 }

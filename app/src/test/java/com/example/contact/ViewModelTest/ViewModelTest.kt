@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.contact.mvvm.ContactRepository
 import com.example.contact.mvvm.ContactViewModel
-import com.example.contact.room.Contact
+import com.example.contact.room.ContactEntity
 import com.example.contact.room.NumberEntity
 import io.mockk.*
 import io.mockk.impl.annotations.MockK
@@ -26,7 +26,7 @@ class ViewModelTest {
     lateinit var contactRepository: ContactRepository
 
     @MockK
-    lateinit var contact: Contact
+    lateinit var contactEntity: ContactEntity
 
     @MockK
     lateinit var numberEntity: NumberEntity
@@ -57,13 +57,13 @@ class ViewModelTest {
     @Test
     fun addContact() {
         coEvery {
-            contactRepository.addContact(contact)
+            contactRepository.addContact(contactEntity)
         } returns Unit
         runBlocking {
-            contactViewModel.addContact(contact)
+            contactViewModel.addContact(contactEntity)
         }
         coVerify {
-            contactRepository.addContact(contact)
+            contactRepository.addContact(contactEntity)
         }
     }
 
@@ -75,7 +75,7 @@ class ViewModelTest {
         } returns mutableList
 
         runBlocking {
-            contactViewModel.searchContact("%name%")
+            contactViewModel.searchContact("name").value
         }
         coVerify {
             contactRepository.getContactsAsPerSearch("name")
@@ -129,7 +129,7 @@ class ViewModelTest {
             contactRepository.getNumberFromSearch("number").value
         } returns mutableList2
         runBlocking {
-            contactViewModel.getNumberFromSearch("number")
+            contactViewModel.getNumberFromSearch("number").value
         }
         coVerify {
             contactRepository.getNumberFromSearch("number").value

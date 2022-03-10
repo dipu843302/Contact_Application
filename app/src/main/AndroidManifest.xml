@@ -24,7 +24,7 @@
             android:name=".activity.AddNewContact"
             android:exported="false" />
         <activity
-            android:name=".room.Contact"
+            android:name=".room.ContactEntity"
             android:exported="false"
             tools:ignore="Instantiatable" />
         <activity

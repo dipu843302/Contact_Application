@@ -1,7 +1,7 @@
 package com.example.contact.mvvm
 
 import androidx.lifecycle.*
-import com.example.contact.room.Contact
+import com.example.contact.room.ContactEntity
 import com.example.contact.room.NumberEntity
 import kotlinx.coroutines.launch
 
@@ -15,8 +15,8 @@ class ContactViewModel(private val contactRepository: ContactRepository) : ViewM
         contactRepository.storeAllContactsInDatabase()
     }
 
-    fun addContact(contact: Contact) {
-        contactRepository.addContact(contact)
+    fun addContact(contactEntity: ContactEntity) {
+        contactRepository.addContact(contactEntity)
     }
 
     fun searchContact(search: String) =

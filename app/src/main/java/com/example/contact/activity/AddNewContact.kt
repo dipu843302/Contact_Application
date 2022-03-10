@@ -4,11 +4,11 @@ import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.system.Os.remove
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProviders
@@ -16,13 +16,12 @@ import com.example.contact.R
 import com.example.contact.mvvm.ContactRepository
 import com.example.contact.mvvm.ContactViewModel
 import com.example.contact.mvvm.ContactViewModelFactory
-import com.example.contact.room.Contact
+import com.example.contact.room.ContactEntity
 import com.example.contact.room.ContactDao
 import com.example.contact.room.ContactDatabase
 import com.example.contact.room.NumberEntity
 import com.github.dhaval2404.imagepicker.ImagePicker
 import kotlinx.android.synthetic.main.activity_add_new_contact.*
-import kotlinx.android.synthetic.main.add_number_layout.*
 
 class AddNewContact : AppCompatActivity() {
 
@@ -31,11 +30,11 @@ class AddNewContact : AppCompatActivity() {
     lateinit var contactDao: ContactDao
     lateinit var contactDatabase: ContactDatabase
 
+    lateinit var num:NumberEntity
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_new_contact)
-
-
 
         contactDatabase = ContactDatabase.getDatabase(this)
         contactDao = contactDatabase.contactDao()
@@ -44,23 +43,41 @@ class AddNewContact : AppCompatActivity() {
         contactViewModel =
             ViewModelProviders.of(this, viewModelFactory)[ContactViewModel::class.java]
 
+        editTextTextPersonName4.setOnClickListener{
+            mobile2.visibility=View.VISIBLE
+        }
+        mobile2.setOnClickListener{
+            mobile3.visibility=View.VISIBLE
+        }
+        mobile3.setOnClickListener{
+            mobile4.visibility=View.VISIBLE
+        }
 
         // Save button
         button.setOnClickListener {
-
-
             val Name =
                 "${editTextTextPersonName.text.toString()} ${editTextTextPersonName2.text.toString()}"
             val numberPhone = editTextTextPersonName4.text.toString()
-            val num=NumberEntity(Name,numberPhone,"sdf")
+
+//            for(i in 5 until linearLayoutText.childCount-1){
+//                var nume:EditText=linearLayoutText.getChildAt(i).findViewById(R.id.textNumber)
+//                 num = NumberEntity(Name, numberPhone, nume.toString(),"sdf")
+//            }
+            val mobile_2=mobile2.text.toString()
+            val mobile_3=mobile3.text.toString()
+            val mobile_4=mobile4.text.toString()
+            num = NumberEntity(Name, numberPhone, mobile_2, mobile_3, mobile_4,"sdf")
             contactViewModel.addNumber(num)
 
-            val contact = Contact(Name)
+            val contact = ContactEntity(Name)
             contactViewModel.addContact(contact)
 
             Toast.makeText(this, "Contact added", Toast.LENGTH_SHORT).show()
             onBackPressed()
         }
+
+        // Dynamic view adding
+      //  addEditText()
 
         // Cancel button
         imageView.setOnClickListener {
@@ -68,7 +85,6 @@ class AddNewContact : AppCompatActivity() {
         }
 
         // take a image from gallery
-
         textView5.setOnClickListener {
             ImagePicker.with(this)
                 .crop()                    //Crop image(Optional), Check Customization for more option
@@ -79,8 +95,6 @@ class AddNewContact : AppCompatActivity() {
                 )    //Final image resolution will be less than 1080 x 1080(Optional)
                 .start()
         }
-        // Dynamic view adding
-        addEditText()
     }
 
     // set image
@@ -93,12 +107,15 @@ class AddNewContact : AppCompatActivity() {
 
     private fun addEditText() {
         val infalater = LayoutInflater.from(this).inflate(R.layout.add_number_layout, null)
-        linearLayout.addView(infalater, linearLayout.childCount)
+       // linearLayoutText.addView(infalater, linearLayoutText.childCount)
 
-        removeNumber.setOnClickListener {
+        val numText: EditText = infalater.findViewById(R.id.textNumber)
+        val remove: ImageView = infalater.findViewById(R.id.removeNumber)
+
+        remove.setOnClickListener {
             remove(infalater)
         }
-        textNumber.addTextChangedListener(object : TextWatcher {
+        numText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
             }
@@ -108,7 +125,7 @@ class AddNewContact : AppCompatActivity() {
 
             override fun afterTextChanged(p0: Editable?) {
                 if (p0 != null) {
-                    if (p0.length >= 1) {
+                    if (p0.toString().length == 1) {
                         addEditText()
                     }
                 }
@@ -118,7 +135,7 @@ class AddNewContact : AppCompatActivity() {
     }
 
     private fun remove(view: View) {
-        linearLayout.removeView(view)
+     //   linearLayoutText.removeView(view)
 
     }
 }

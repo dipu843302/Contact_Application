@@ -8,23 +8,22 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.EditText
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProviders
 import com.example.contact.R
 import com.example.contact.mvvm.ContactRepository
 import com.example.contact.mvvm.ContactViewModel
 import com.example.contact.mvvm.ContactViewModelFactory
-import com.example.contact.room.Contact
 import com.example.contact.room.ContactDao
 import com.example.contact.room.ContactDatabase
 import com.example.contact.room.NumberEntity
 import com.github.dhaval2404.imagepicker.ImagePicker
-import kotlinx.android.synthetic.main.activity_add_new_contact.*
 import kotlinx.android.synthetic.main.activity_add_new_contact.editTextTextPersonName
 import kotlinx.android.synthetic.main.activity_add_new_contact.editTextTextPersonName4
 import kotlinx.android.synthetic.main.activity_add_new_contact.imageView
 import kotlinx.android.synthetic.main.activity_edit_contact.*
-import kotlinx.android.synthetic.main.add_number_layout.*
 
 class EditContact : AppCompatActivity() {
 
@@ -45,19 +44,17 @@ class EditContact : AppCompatActivity() {
 
         val intent: Intent =getIntent()
         val name=intent.getStringExtra("changeName")
-        val oldName=name
-        editTextTextPersonName.setText(name)
+//        val oldName=name
+//        editTextTextPersonName.setText(name)
 
         val number=intent.getStringExtra("number")
         editTextTextPersonName4.setText(number)
-
-
 
         buttonSave.setOnClickListener{
             val updatedName=editTextTextPersonName.text.toString()
             val updatedNumber=editTextTextPersonName4.text.toString()
 
-            val numberEntity=NumberEntity(updatedName,updatedNumber,"")
+            val numberEntity=NumberEntity(updatedName,updatedNumber,"","","","")
 
             contactViewModel.contactUpdate(numberEntity)
 
@@ -99,12 +96,14 @@ class EditContact : AppCompatActivity() {
         val infalater = LayoutInflater.from(this).inflate(R.layout.add_number_layout, null)
         ContainerlinearLayout.addView(infalater, ContainerlinearLayout.childCount)
 
-        removeNumber.setOnClickListener {
+        val numText: EditText = infalater.findViewById(R.id.textNumber)
+        val remove: ImageView = infalater.findViewById(R.id.removeNumber)
+
+        remove.setOnClickListener {
             removeEditText(infalater)
         }
-        textNumber.addTextChangedListener(object : TextWatcher {
+        numText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -112,18 +111,15 @@ class EditContact : AppCompatActivity() {
 
             override fun afterTextChanged(p0: Editable?) {
                 if (p0 != null) {
-                    if (p0.length >= 1) {
+                    if (p0.length == 1) {
                         addEditTextDynamic()
                     }
                 }
             }
-
         })
     }
 
     private fun removeEditText(view: View) {
         ContainerlinearLayout.removeView(view)
-
     }
-
 }

@@ -5,9 +5,7 @@ import android.graphics.drawable.GradientDrawable
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.example.contact.ItemClickListener
-import com.example.contact.room.Contact
 import com.example.contact.room.NumberEntity
-import kotlinx.android.synthetic.main.item_layout.view.*
 import kotlinx.android.synthetic.main.item_layout_2.view.*
 import java.util.*
 
@@ -28,7 +26,7 @@ class SearchViewHolder(itemView: View, private val itemClickListener: ItemClickL
             tvName2.text = numberEntity.name
             btnName2.text= numberEntity.name[0].toString().uppercase()
             btnName2.background = draw
-            textNumber.text=numberEntity.number
+            textNumber.text=numberEntity.number1
             tvName2.setOnClickListener {
                 itemClickListener.clickListener(numberEntity, adapterPosition)
             }

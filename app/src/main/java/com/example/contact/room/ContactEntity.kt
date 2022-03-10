@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "contact_table")
-data class Contact (
+data class ContactEntity (
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name="name")var name: String,
 )

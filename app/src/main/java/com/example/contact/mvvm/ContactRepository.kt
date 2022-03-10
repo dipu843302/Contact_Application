@@ -11,7 +11,7 @@ import android.provider.ContactsContract
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.contact.room.Contact
+import com.example.contact.room.ContactEntity
 import com.example.contact.room.ContactDao
 import com.example.contact.room.ContactRelation
 import com.example.contact.room.NumberEntity
@@ -23,10 +23,8 @@ import kotlinx.coroutines.launch
 class ContactRepository(val contactDao: ContactDao, val context: Context) {
 
     private val contactLiveData = MutableLiveData<List<ContactRelation>>()
-
     val contact: LiveData<List<ContactRelation>>
         get() = contactLiveData
-
 
     private var listOfContacts = ArrayList<ContactRelation>()
     private var cursor: Cursor? = null
@@ -34,6 +32,7 @@ class ContactRepository(val contactDao: ContactDao, val context: Context) {
     var cols = listOf<String>(
         ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
         ContactsContract.CommonDataKinds.Phone.NUMBER,
+     //  ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE.toString(),
         ContactsContract.CommonDataKinds.Phone._ID
     ).toTypedArray()
 
@@ -52,15 +51,19 @@ class ContactRepository(val contactDao: ContactDao, val context: Context) {
                 val number =
                     cursor!!.getString(cursor!!.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.NUMBER))
 
+//                var number1 =
+//                    cursor!!.getString(cursor!!.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE.toString()))
+//                  if(number1.isNullOrEmpty()){
+//                      number1="Empty"
+//                  }
                 val id=cursor!!.getLong(cursor!!.getColumnIndex(ContactsContract.CommonDataKinds.Photo._ID))
 
                 val uri: Uri = ContentUris.withAppendedId(Contacts.People.CONTENT_URI, id)
                 val bitmap = Contacts.People.loadContactPhoto(context, uri, R.drawable.ic_menu_report_image, null)
-
-
-                val contact = Contact(name)
+                
+                val contact = ContactEntity(name)
                 val numberList = mutableListOf<NumberEntity>()
-                val number_contact = NumberEntity(name, number,bitmap.toString())
+                val number_contact = NumberEntity(name, number,null,null,null,bitmap.toString())
                 numberList.add(number_contact)
 
                 val contactRelation = ContactRelation(contact, numberList)
@@ -77,9 +80,9 @@ class ContactRepository(val contactDao: ContactDao, val context: Context) {
         }
     }
 
-    fun addContact(contact: Contact) {
+    fun addContact(contactEntity: ContactEntity) {
         CoroutineScope(Dispatchers.IO).launch {
-            contactDao.addContact(contact)
+            contactDao.addContact(contactEntity)
         }
     }
 
