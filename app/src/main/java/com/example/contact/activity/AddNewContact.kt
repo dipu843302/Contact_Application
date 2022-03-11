@@ -43,15 +43,7 @@ class AddNewContact : AppCompatActivity() {
         contactViewModel =
             ViewModelProviders.of(this, viewModelFactory)[ContactViewModel::class.java]
 
-        editTextTextPersonName4.setOnClickListener{
-            mobile2.visibility=View.VISIBLE
-        }
-        mobile2.setOnClickListener{
-            mobile3.visibility=View.VISIBLE
-        }
-        mobile3.setOnClickListener{
-            mobile4.visibility=View.VISIBLE
-        }
+
 
         // Save button
         button.setOnClickListener {
@@ -59,25 +51,23 @@ class AddNewContact : AppCompatActivity() {
                 "${editTextTextPersonName.text.toString()} ${editTextTextPersonName2.text.toString()}"
             val numberPhone = editTextTextPersonName4.text.toString()
 
-//            for(i in 5 until linearLayoutText.childCount-1){
-//                var nume:EditText=linearLayoutText.getChildAt(i).findViewById(R.id.textNumber)
-//                 num = NumberEntity(Name, numberPhone, nume.toString(),"sdf")
-//            }
-            val mobile_2=mobile2.text.toString()
-            val mobile_3=mobile3.text.toString()
-            val mobile_4=mobile4.text.toString()
-            num = NumberEntity(Name, numberPhone, mobile_2, mobile_3, mobile_4,"sdf")
+            for(i in 5 until linearLayoutText.childCount-1){
+                var nume:EditText=linearLayoutText.getChildAt(i).findViewById(R.id.textNumber)
+                // num = NumberEntity(Name, numberPhone, nume.toString(),"sdf")
+            }
+
+          //  num = NumberEntity(Name, numberPhone, ,"sdf")
             contactViewModel.addNumber(num)
 
-            val contact = ContactEntity(Name)
-            contactViewModel.addContact(contact)
+           // val contact = ContactEntity(Name)
+       //     contactViewModel.addContact(contact)
 
             Toast.makeText(this, "Contact added", Toast.LENGTH_SHORT).show()
             onBackPressed()
         }
 
-        // Dynamic view adding
-      //  addEditText()
+       // Dynamic view adding
+        addEditText()
 
         // Cancel button
         imageView.setOnClickListener {
@@ -107,7 +97,7 @@ class AddNewContact : AppCompatActivity() {
 
     private fun addEditText() {
         val infalater = LayoutInflater.from(this).inflate(R.layout.add_number_layout, null)
-       // linearLayoutText.addView(infalater, linearLayoutText.childCount)
+        linearLayoutText.addView(infalater, linearLayoutText.childCount)
 
         val numText: EditText = infalater.findViewById(R.id.textNumber)
         val remove: ImageView = infalater.findViewById(R.id.removeNumber)
@@ -135,7 +125,7 @@ class AddNewContact : AppCompatActivity() {
     }
 
     private fun remove(view: View) {
-     //   linearLayoutText.removeView(view)
+        linearLayoutText.removeView(view)
 
     }
 }

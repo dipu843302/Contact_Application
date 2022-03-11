@@ -51,49 +51,6 @@ class ContactDetails : AppCompatActivity() {
         tvNumber.text = number.toString()
 
 
-        val number2=intent.getStringExtra("number2")
-        if (number2 != null) {
-            if ( number2.isNotEmpty()) {
-                linearlayout2.visibility=View.VISIBLE
-                tvNumber2.text = number2.toString()
-            }
-        }
-        val number3=intent.getStringExtra("number3")
-        if (number3!=null) {
-            if (number3.isNotEmpty()) {
-                linearlayout3.visibility = View.VISIBLE
-                tvNum3.text = number3.toString()
-            }
-        }
-        val number4=intent.getStringExtra("number4")
-        if (number4!=null) {
-            if (number4.isNotEmpty()) {
-                linearlayout4.visibility = View.VISIBLE
-                tvNumber4.text = number4.toString()
-            }
-        }
-        // call by phone icon
-        callPhone2.setOnClickListener{
-            CallButton()
-        }
-        callPhone3.setOnClickListener{
-            CallButton()
-        }
-        callPhone4.setOnClickListener{
-            CallButton()
-        }
-
-        // call by number
-        tvNumber2.setOnClickListener{
-            CallButton()
-        }
-        tvNum3.setOnClickListener{
-            CallButton()
-        }
-        tvNumber4.setOnClickListener{
-            CallButton()
-        }
-
         val name=intent.getStringExtra("name")
         tvName.text = name
 
@@ -141,9 +98,9 @@ class ContactDetails : AppCompatActivity() {
         send_message.setOnClickListener{
             sendSMS()
         }
-       // for (i in 1..3){
-            //NumberLayout()
-      //  }
+        for (i in 1..3){
+            NumberLayout()
+        }
 
     }
 
@@ -191,8 +148,8 @@ class ContactDetails : AppCompatActivity() {
 
     @SuppressLint("InflateParams")
     private fun NumberLayout(){
-      //  val view:View=layoutInflater.inflate(R.layout.number_layout,null)
-       // number_linearlayout.addView(view)
+        val view:View=layoutInflater.inflate(R.layout.number_layout,null)
+        number_linearlayout.addView(view)
         val vi =
             applicationContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val v: View = vi.inflate(R.layout.number_layout, null)

@@ -10,15 +10,16 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.contact.ItemClickListener
 import com.example.contact.R
+import com.example.contact.room.ContactRelation
 import com.example.contact.room.NumberEntity
 import kotlinx.android.synthetic.main.item_layout.view.*
 import java.util.*
 
 
-class ContactAdapter(list: List<NumberEntity>, private val itemClickListener: ItemClickListener) :
+class ContactAdapter(list: List<ContactRelation>, private val itemClickListener: ItemClickListener) :
     RecyclerView.Adapter<ContactAdapter.ViewHolder>() {
 
-    private var list: List<NumberEntity> = list
+    private var list: List<ContactRelation> = list
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_layout, parent, false)
@@ -38,7 +39,7 @@ class ContactAdapter(list: List<NumberEntity>, private val itemClickListener: It
         RecyclerView.ViewHolder(itemView) {
 
         @SuppressLint("UseCompatLoadingForDrawables")
-        fun setData(numberEntity: NumberEntity) {
+        fun setData(contactRelation: ContactRelation) {
             itemView.apply {
                 val r = Random()
                 val red = r.nextInt(255 - 0 + 1) + 0
@@ -49,7 +50,7 @@ class ContactAdapter(list: List<NumberEntity>, private val itemClickListener: It
                 draw.shape = GradientDrawable.OVAL
                 draw.setColor(Color.rgb(red, green, blue))
 
-                tvName.text = numberEntity.name
+                tvName.text = contactRelation.contactEntity.name
 
 //                //  if(numberEntity.photo.length!=null){
 //                    Glide.with(context)
@@ -60,12 +61,12 @@ class ContactAdapter(list: List<NumberEntity>, private val itemClickListener: It
                  //   resources.getDrawable(resources.getIdentifier("name", "id", numberEntity.photo))
                 //  profileImage.background=numberEntity.photo
                 //  }else{
-                    profileImage.text= numberEntity.name[0].toString().uppercase()
+                    profileImage.text= contactRelation.contactEntity.name[0].toString().uppercase()
                   profileImage.background = draw
                 //  }
 
                 tvName.setOnClickListener {
-                    itemClickListener.clickListener(numberEntity, adapterPosition)
+                    itemClickListener.clickListener(contactRelation, adapterPosition)
                 }
             }
         }

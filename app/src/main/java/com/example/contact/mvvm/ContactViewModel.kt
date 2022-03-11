@@ -2,13 +2,14 @@ package com.example.contact.mvvm
 
 import androidx.lifecycle.*
 import com.example.contact.room.ContactEntity
+import com.example.contact.room.ContactRelation
 import com.example.contact.room.NumberEntity
 import kotlinx.coroutines.launch
 
 
 class ContactViewModel(private val contactRepository: ContactRepository) : ViewModel() {
 
-    fun fetchAllContact(): LiveData<List<NumberEntity>> {
+    fun fetchAllContact(): LiveData<List<ContactRelation>> {
         return contactRepository.getAllContact()
     }
     fun storeData(){
@@ -29,9 +30,9 @@ class ContactViewModel(private val contactRepository: ContactRepository) : ViewM
         contactRepository.delete(name)
     }
 
-    fun contactUpdate(numberEntity: NumberEntity){
+    fun contactUpdate(contactRelation: ContactRelation){
         viewModelScope.launch {
-            contactRepository.contactUpdate(numberEntity)
+            contactRepository.contactUpdate(contactRelation)
         }
     }
 

@@ -43,6 +43,7 @@ class ContactRepository(val contactDao: ContactDao, val context: Context) {
                 ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
                 cols, null, null, ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
             )
+            var i:Long=1
             cursor?.moveToFirst()
             while (cursor?.moveToNext()!!) {
                 val name =
@@ -61,9 +62,10 @@ class ContactRepository(val contactDao: ContactDao, val context: Context) {
                 val uri: Uri = ContentUris.withAppendedId(Contacts.People.CONTENT_URI, id)
                 val bitmap = Contacts.People.loadContactPhoto(context, uri, R.drawable.ic_menu_report_image, null)
                 
-                val contact = ContactEntity(name)
+                val contact = ContactEntity(id,name,uri.toString())
                 val numberList = mutableListOf<NumberEntity>()
-                val number_contact = NumberEntity(name, number,null,null,null,bitmap.toString())
+                val number_contact = NumberEntity(i,number,id)
+                i++
                 numberList.add(number_contact)
 
                 val contactRelation = ContactRelation(contact, numberList)
@@ -93,26 +95,25 @@ class ContactRepository(val contactDao: ContactDao, val context: Context) {
     }
 
     @SuppressLint("Range")
-    fun getContactsAsPerSearch(search: String): LiveData<List<NumberEntity>> {
+    fun getContactsAsPerSearch(search: String): LiveData<List<ContactRelation>> {
         return contactDao.getContactsAsPerSearch(search)
     }
     @SuppressLint("Range")
-    fun getNumberFromSearch(search: String): LiveData<List<NumberEntity>> {
+    fun getNumberFromSearch(search: String): LiveData<List<ContactRelation>> {
         return contactDao.getNumberFromSearch(search)
     }
 
-    fun getAllContact(): LiveData<List<NumberEntity>> {
+    fun getAllContact(): LiveData<List<ContactRelation>> {
         return contactDao.getAllContacts()
     }
 
-    suspend fun contactUpdate(numberEntity: NumberEntity) {
-         contactDao.contactUpdate(numberEntity)
+    suspend fun contactUpdate(contactRelation: ContactRelation) {
+         contactDao.contactUpdate(contactRelation)
     }
 
     fun addNumber(numberEntity: NumberEntity){
         CoroutineScope(Dispatchers.IO).launch {
             contactDao.addNumber(numberEntity)
         }
-
     }
 }
