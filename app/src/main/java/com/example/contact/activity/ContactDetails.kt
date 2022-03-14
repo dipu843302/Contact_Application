@@ -99,7 +99,7 @@ class ContactDetails : AppCompatActivity() {
             sendSMS()
         }
         for (i in 1..3){
-            NumberLayout()
+            //NumberLayout()
         }
 
     }

@@ -3,12 +3,19 @@
     android:layout_width="match_parent"
     android:orientation="horizontal"
     android:layout_height="wrap_content">
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/ic_baseline_local_phone_24"
+        android:id="@+id/call_icom"/>
 
     <EditText
         android:id="@+id/textNumber"
         android:layout_width="237dp"
         android:layout_height="48dp"
         android:textColor="@color/black"
+        android:layout_marginStart="40dp"
         android:hint="Mobile"
        />
      <ImageView

@@ -10,6 +10,7 @@ data class NumberEntity(
     val Number_Id: Long,
 
     @ColumnInfo(name = "number1") var number1: String,
+    @ColumnInfo(name = "name") var name: String,
 
     val Contact_Id: Long
 

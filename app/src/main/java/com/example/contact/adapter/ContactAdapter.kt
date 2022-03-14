@@ -66,7 +66,7 @@ class ContactAdapter(list: List<ContactRelation>, private val itemClickListener:
                 //  }
 
                 tvName.setOnClickListener {
-                    itemClickListener.clickListener(contactRelation, adapterPosition)
+                    itemClickListener.clickListener(contactRelation.numberEntity[0], adapterPosition)
                 }
             }
         }

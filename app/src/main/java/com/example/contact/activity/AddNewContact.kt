@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.EditText
@@ -22,6 +23,7 @@ import com.example.contact.room.ContactDatabase
 import com.example.contact.room.NumberEntity
 import com.github.dhaval2404.imagepicker.ImagePicker
 import kotlinx.android.synthetic.main.activity_add_new_contact.*
+import kotlin.random.Random
 
 class AddNewContact : AppCompatActivity() {
 
@@ -49,18 +51,16 @@ class AddNewContact : AppCompatActivity() {
         button.setOnClickListener {
             val Name =
                 "${editTextTextPersonName.text.toString()} ${editTextTextPersonName2.text.toString()}"
-            val numberPhone = editTextTextPersonName4.text.toString()
 
-            for(i in 5 until linearLayoutText.childCount-1){
-                var nume:EditText=linearLayoutText.getChildAt(i).findViewById(R.id.textNumber)
-                // num = NumberEntity(Name, numberPhone, nume.toString(),"sdf")
+            for(i in 0 until linearLayoutText.childCount){
+                var number:EditText=linearLayoutText.getChildAt(i).findViewById(R.id.textNumber)
+                num = NumberEntity(Random.nextLong(), number.text.toString(),Name,Random.nextLong())
+
+                contactViewModel.addNumber(num)
             }
 
-          //  num = NumberEntity(Name, numberPhone, ,"sdf")
-            contactViewModel.addNumber(num)
-
-           // val contact = ContactEntity(Name)
-       //     contactViewModel.addContact(contact)
+            val contact = ContactEntity(Random.nextLong(),Name,"photo")
+            contactViewModel.addContact(contact)
 
             Toast.makeText(this, "Contact added", Toast.LENGTH_SHORT).show()
             onBackPressed()

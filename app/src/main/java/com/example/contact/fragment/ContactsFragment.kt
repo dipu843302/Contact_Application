@@ -36,6 +36,7 @@ class ContactsFragment : Fragment(), ItemClickListener {
     private lateinit var searchAdapter: SearchAdapter
 
     private var contactList = mutableListOf<ContactRelation>()
+    private var searchList = mutableListOf<NumberEntity>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -59,7 +60,6 @@ class ContactsFragment : Fragment(), ItemClickListener {
             setRecyclerView()
         })
 
-
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return false
@@ -80,10 +80,9 @@ class ContactsFragment : Fragment(), ItemClickListener {
                         lifecycleScope.launch {
                             contactViewModel.getNumberFromSearch(newText.toString())
                                 .observe(requireActivity()) {
-                                    contactList.clear()
-                                    contactList.addAll(it)
+                                    searchList.clear()
+                                    searchList.addAll(it)
                                     setRecyclerViewForSearch()
-
                                 }
                         }
                     }
@@ -110,15 +109,16 @@ class ContactsFragment : Fragment(), ItemClickListener {
     }
 
     fun setRecyclerViewForSearch() {
-        searchAdapter = SearchAdapter(contactList, this)
+        searchAdapter = SearchAdapter(searchList, this)
         RecyclerView.adapter = searchAdapter
         RecyclerView.layoutManager = LinearLayoutManager(requireContext())
     }
 
-    override fun clickListener(contactRelation: ContactRelation, position: Int) {
+    override fun clickListener(numberEntity: NumberEntity, position: Int) {
         val intent = Intent(this.context, ContactDetails::class.java)
-        intent.putExtra("name", contactRelation.contactEntity.name)
-        intent.putExtra("number", contactRelation.numberEntity[0].number1)
+        intent.putExtra("name", numberEntity.name)
+        intent.putExtra("number", numberEntity.number1)
         startActivity(intent)
     }
+
 }

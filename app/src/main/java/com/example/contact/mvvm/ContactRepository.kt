@@ -64,7 +64,7 @@ class ContactRepository(val contactDao: ContactDao, val context: Context) {
                 
                 val contact = ContactEntity(id,name,uri.toString())
                 val numberList = mutableListOf<NumberEntity>()
-                val number_contact = NumberEntity(i,number,id)
+                val number_contact = NumberEntity(i,number,name,id)
                 i++
                 numberList.add(number_contact)
 
@@ -99,7 +99,7 @@ class ContactRepository(val contactDao: ContactDao, val context: Context) {
         return contactDao.getContactsAsPerSearch(search)
     }
     @SuppressLint("Range")
-    fun getNumberFromSearch(search: String): LiveData<List<ContactRelation>> {
+    fun getNumberFromSearch(search: String): LiveData<List<NumberEntity>> {
         return contactDao.getNumberFromSearch(search)
     }
 
@@ -108,7 +108,7 @@ class ContactRepository(val contactDao: ContactDao, val context: Context) {
     }
 
     suspend fun contactUpdate(contactRelation: ContactRelation) {
-         contactDao.contactUpdate(contactRelation)
+       //  contactDao.contactUpdate(contactRelation)
     }
 
     fun addNumber(numberEntity: NumberEntity){

@@ -13,7 +13,7 @@ import java.util.*
 class SearchViewHolder(itemView: View, private val itemClickListener: ItemClickListener) :
     RecyclerView.ViewHolder(itemView) {
 
-    fun setData2(contactRelation: ContactRelation) {
+    fun setData2(numberEntity: NumberEntity) {
         itemView.apply {
             val r = Random()
             val red = r.nextInt(255 - 0 + 1) + 0
@@ -24,12 +24,13 @@ class SearchViewHolder(itemView: View, private val itemClickListener: ItemClickL
             draw.shape = GradientDrawable.OVAL
             draw.setColor(Color.rgb(red, green, blue))
 
-            tvName2.text = contactRelation.contactEntity.name
-            btnName2.text= contactRelation.contactEntity.name[0].toString().uppercase()
+            tvName2.text =numberEntity.name
+            btnName2.text= numberEntity.name[0].toString().uppercase()
             btnName2.background = draw
-            textNumber.text=contactRelation.numberEntity[0].number1
+            textNumber.text=numberEntity.number1
+
             tvName2.setOnClickListener {
-                itemClickListener.clickListener(contactRelation, adapterPosition)
+                itemClickListener.clickListener(numberEntity, adapterPosition)
             }
         }
     }
