@@ -50,7 +50,7 @@ class ContactAdapter(list: List<ContactRelation>, private val itemClickListener:
                 draw.shape = GradientDrawable.OVAL
                 draw.setColor(Color.rgb(red, green, blue))
 
-                tvName.text = contactRelation.contactEntity.name
+                tvName.text = contactRelation.contactEntity?.name
 
 //                //  if(numberEntity.photo.length!=null){
 //                    Glide.with(context)
@@ -61,12 +61,12 @@ class ContactAdapter(list: List<ContactRelation>, private val itemClickListener:
                  //   resources.getDrawable(resources.getIdentifier("name", "id", numberEntity.photo))
                 //  profileImage.background=numberEntity.photo
                 //  }else{
-                    profileImage.text= contactRelation.contactEntity.name[0].toString().uppercase()
+                    profileImage.text= contactRelation.contactEntity!!.name[0].toString().uppercase()
                   profileImage.background = draw
                 //  }
 
                 tvName.setOnClickListener {
-                    itemClickListener.clickListener(contactRelation.numberEntity[0], adapterPosition)
+                    itemClickListener.clickListener(contactRelation.contactEntity!!)
                 }
             }
         }

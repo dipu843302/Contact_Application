@@ -88,9 +88,10 @@ class ContactRepository(val contactDao: ContactDao, val context: Context) {
         }
     }
 
-    fun delete(name: String) {
+    fun delete(name:String) {
         CoroutineScope(Dispatchers.IO).launch {
             contactDao.deleteContact(name)
+
         }
     }
 
@@ -99,7 +100,7 @@ class ContactRepository(val contactDao: ContactDao, val context: Context) {
         return contactDao.getContactsAsPerSearch(search)
     }
     @SuppressLint("Range")
-    fun getNumberFromSearch(search: String): LiveData<List<NumberEntity>> {
+    fun getNumberFromSearch(search: String): LiveData<List<ContactRelation>> {
         return contactDao.getNumberFromSearch(search)
     }
 
@@ -115,5 +116,8 @@ class ContactRepository(val contactDao: ContactDao, val context: Context) {
         CoroutineScope(Dispatchers.IO).launch {
             contactDao.addNumber(numberEntity)
         }
+    }
+    fun getContactNumber(id:String):LiveData<List<ContactRelation>>{
+        return contactDao.getContactNumber(id)
     }
 }

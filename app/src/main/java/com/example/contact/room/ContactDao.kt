@@ -34,6 +34,9 @@ interface ContactDao {
 
     @Transaction
     @Query("SELECT * FROM number_table WHERE number1 LIKE :search or name LIKE:search" )
-    fun getNumberFromSearch(search: String): LiveData<List<NumberEntity>>
+    fun getNumberFromSearch(search: String): LiveData<List<ContactRelation>>
 
+    @Transaction
+    @Query("SELECT * FROM contact_table WHERE name=:name")
+    fun getContactNumber(name:String):LiveData<List<ContactRelation>>
 }

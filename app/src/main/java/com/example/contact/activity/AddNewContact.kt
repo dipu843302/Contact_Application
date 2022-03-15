@@ -49,17 +49,18 @@ class AddNewContact : AppCompatActivity() {
 
         // Save button
         button.setOnClickListener {
+            val randomNumber:Long=Random.nextLong()
             val Name =
                 "${editTextTextPersonName.text.toString()} ${editTextTextPersonName2.text.toString()}"
 
-            for(i in 0 until linearLayoutText.childCount){
+            for(i in 0 until linearLayoutText.childCount-1){
                 var number:EditText=linearLayoutText.getChildAt(i).findViewById(R.id.textNumber)
-                num = NumberEntity(Random.nextLong(), number.text.toString(),Name,Random.nextLong())
+                num = NumberEntity(Random.nextLong(), number.text.toString(),Name,randomNumber)
 
                 contactViewModel.addNumber(num)
             }
 
-            val contact = ContactEntity(Random.nextLong(),Name,"photo")
+            val contact = ContactEntity(randomNumber,Name,"photo")
             contactViewModel.addContact(contact)
 
             Toast.makeText(this, "Contact added", Toast.LENGTH_SHORT).show()

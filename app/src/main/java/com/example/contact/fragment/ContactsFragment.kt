@@ -20,12 +20,9 @@ import com.example.contact.adapter.SearchAdapter
 import com.example.contact.mvvm.ContactRepository
 import com.example.contact.mvvm.ContactViewModel
 import com.example.contact.mvvm.ContactViewModelFactory
-import com.example.contact.room.ContactDao
-import com.example.contact.room.ContactDatabase
-import com.example.contact.room.ContactRelation
+import com.example.contact.room.*
 import kotlinx.android.synthetic.main.fragment_contacts.*
 import kotlinx.coroutines.launch
-import com.example.contact.room.NumberEntity
 
 class ContactsFragment : Fragment(), ItemClickListener {
     private lateinit var contactViewModel: ContactViewModel
@@ -36,7 +33,7 @@ class ContactsFragment : Fragment(), ItemClickListener {
     private lateinit var searchAdapter: SearchAdapter
 
     private var contactList = mutableListOf<ContactRelation>()
-    private var searchList = mutableListOf<NumberEntity>()
+    private var searchList = mutableListOf<ContactRelation>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -114,10 +111,10 @@ class ContactsFragment : Fragment(), ItemClickListener {
         RecyclerView.layoutManager = LinearLayoutManager(requireContext())
     }
 
-    override fun clickListener(numberEntity: NumberEntity, position: Int) {
+    override fun clickListener(contactEntity: ContactEntity) {
         val intent = Intent(this.context, ContactDetails::class.java)
-        intent.putExtra("name", numberEntity.name)
-        intent.putExtra("number", numberEntity.number1)
+        intent.putExtra("name", contactEntity)
+      //  intent.putExtra("number", numberEntity.number1)
         startActivity(intent)
     }
 

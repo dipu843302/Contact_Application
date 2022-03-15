@@ -26,7 +26,7 @@ class ContactViewModel(private val contactRepository: ContactRepository) : ViewM
     fun getNumberFromSearch(search: String) =
         contactRepository.getNumberFromSearch("%$search%")
 
-    fun deleteContact(name: String) {
+    fun deleteContact(name:String) {
         contactRepository.delete(name)
     }
 
@@ -38,5 +38,8 @@ class ContactViewModel(private val contactRepository: ContactRepository) : ViewM
 
     fun addNumber(numberEntity: NumberEntity){
         contactRepository.addNumber(numberEntity)
+    }
+    fun getContactNumber(id:String):LiveData<List<ContactRelation>>{
+        return contactRepository.getContactNumber(id)
     }
 }
