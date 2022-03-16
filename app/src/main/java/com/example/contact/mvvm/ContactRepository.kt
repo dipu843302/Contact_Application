@@ -120,4 +120,11 @@ class ContactRepository(val contactDao: ContactDao, val context: Context) {
     fun getContactNumber(id:String):LiveData<List<ContactRelation>>{
         return contactDao.getContactNumber(id)
     }
+
+    fun deleteNumber(contactEntity: NumberEntity){
+        return contactDao.deleteNumber(contactEntity)
+    }
+    fun getAllDeleteDataNumber(name: String): LiveData<List<NumberEntity>>{
+        return contactDao.getAllDeleteDataNumber(name)
+    }
 }

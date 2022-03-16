@@ -11,7 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.contact.ItemClickListener
+import com.example.contact.Interface.ItemClickListener
 import com.example.contact.R
 import com.example.contact.activity.AddNewContact
 import com.example.contact.activity.ContactDetails

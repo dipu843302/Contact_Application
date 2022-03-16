@@ -4,13 +4,10 @@ import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import com.example.contact.ItemClickListener
-import com.example.contact.room.ContactEntity
+import com.example.contact.Interface.ItemClickListener
 import com.example.contact.room.ContactRelation
-import com.example.contact.room.NumberEntity
 import kotlinx.android.synthetic.main.item_layout_2.view.*
 import java.util.*
-import kotlin.contracts.contract
 
 class SearchViewHolder(itemView: View, private val itemClickListener: ItemClickListener) :
     RecyclerView.ViewHolder(itemView) {

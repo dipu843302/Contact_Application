@@ -19,6 +19,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.contact.Interface.CallClickListener
 import com.example.contact.R
 import com.example.contact.adapter.NumbersAdapter
 import com.example.contact.mvvm.ContactRepository
@@ -33,7 +34,7 @@ import kotlinx.android.synthetic.main.number_layout.*
 import java.util.*
 
 
-class ContactDetails : AppCompatActivity() {
+class ContactDetails : AppCompatActivity(),CallClickListener {
 
     lateinit var contactViewModel: ContactViewModel
     lateinit var contactRepository: ContactRepository
@@ -57,11 +58,7 @@ class ContactDetails : AppCompatActivity() {
 
         val intent: Intent = intent
         val contactEntity = intent.getParcelableExtra<ContactEntity>("name")
-//        val number=intent.getStringExtra("number")
-//        tvNumber.text = number.toString()
 
-
-        // val name=intent.getStringExtra("name")
         tvName.text = contactEntity?.name.toString()
 
         setRecyclerView()
@@ -92,9 +89,17 @@ class ContactDetails : AppCompatActivity() {
         }
 
         delete.setOnClickListener {
+            val contactEntity=ContactEntity(1,tvName.text.toString(),"sss")
             contactViewModel.
-            deleteContact(tvName.toString())
+           deleteContact(tvName.text.toString())
+            //    deleteNumber(contactEntity)
             Toast.makeText(this, "Contact Deleted", Toast.LENGTH_SHORT).show()
+
+//           contactViewModel.getAllDeleteDataNumber(tvName.text.toString()).observe(this){
+//               it.forEach {
+//                   contactViewModel.deleteNumber(it)
+//               }
+//           }
             onBackPressed()
         }
 
@@ -109,79 +114,24 @@ class ContactDetails : AppCompatActivity() {
         back.setOnClickListener {
             onBackPressed()
         }
-
-//        call.setOnClickListener{
-//            CallButton()
-//        }
-//        call2.setOnClickListener{
-//            CallButton()
-//        }
-//        tvNumber.setOnClickListener{
-//            CallButton()
-//        }
-//        send_message.setOnClickListener{
-//            sendSMS()
-//        }
-//        for (i in 1..3){
-//            //NumberLayout()
-//        }
-
-
     }
 
     fun setRecyclerView() {
-        numbersAdapter = NumbersAdapter(mutableList)
+        numbersAdapter = NumbersAdapter(mutableList,this)
         numberRecyclerView.adapter = numbersAdapter
         numberRecyclerView.layoutManager = LinearLayoutManager(this)
     }
-//    private fun CallButton() {
-//        val PhoneNumber=tvNumber.text.toString()
-//        if (PhoneNumber.trim().isNotEmpty()){
-//            if (ContextCompat.checkSelfPermission(this,Manifest.permission.CALL_PHONE)!=PackageManager.PERMISSION_GRANTED){
-//                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CALL_PHONE),1
-//                )
-//            }else{
-//                val dial= "tel:$PhoneNumber"
-//                startActivity(Intent(Intent.ACTION_CALL, Uri.parse(dial)))
-//            }
-//        }
-//    }
 
-//    override fun onRequestPermissionsResult(
-//        requestCode: Int,
-//        permissions: Array<out String>,
-//        grantResults: IntArray
-//    ) {
-//        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-//        if (requestCode==1){
-//            if (grantResults.isNotEmpty() && grantResults[0]==PackageManager.PERMISSION_GRANTED){
-//                CallButton()
-//            }else{
-//                Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show()
-//            }
-//        }
-//    }
+    override fun ClickForCall(numberEntity: NumberEntity) {
+        val uri = "tel:" + numberEntity.number1.trim()
+        val intent = Intent(Intent.ACTION_DIAL)
+        intent.data = Uri.parse(uri)
+        startActivity(intent)
 
-    private fun sendSMS() {
-        val defaultSmsPackageName =
-            Telephony.Sms.getDefaultSmsPackage(this)
-        val sendIntent = Intent(Intent.ACTION_SEND)
-        sendIntent.type = "text/plain"
-        sendIntent.putExtra(Intent.EXTRA_TEXT, "text")
-        if (defaultSmsPackageName != null) {
-            sendIntent.setPackage(defaultSmsPackageName)
-        }
-        startActivity(sendIntent)
     }
 
-    @SuppressLint("InflateParams")
-    private fun NumberLayout() {
-        val view: View = layoutInflater.inflate(R.layout.number_layout, null)
-        number_linearlayout.addView(view)
-        val vi =
-            applicationContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val v: View = vi.inflate(R.layout.number_layout, null)
-        number_linearlayout.addView(v)
-
+    override fun sendMessage(numberEntity: NumberEntity) {
+        val message = Intent(Intent.ACTION_SENDTO, Uri.parse("smsto:" + numberEntity.number1))
+        startActivity(message)
     }
 }

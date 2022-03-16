@@ -1,4 +1,4 @@
-package com.example.contact
+package com.example.contact.Interface
 
 import com.example.contact.room.ContactEntity
 import com.example.contact.room.ContactRelation

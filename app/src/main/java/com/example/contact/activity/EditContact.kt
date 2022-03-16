@@ -41,10 +41,9 @@ class EditContact : AppCompatActivity() {
         val viewModelFactory = ContactViewModelFactory(contactRepository)
         contactViewModel = ViewModelProviders.of(this, viewModelFactory)[ContactViewModel::class.java]
 
-        val intent: Intent =getIntent()
+        val intent: Intent = intent
         val name=intent.getStringExtra("changeName")
-//        val oldName=name
-//        editTextTextPersonName.setText(name)
+        editTextTextPersonName.setText(name)
 
         val number=intent.getStringExtra("number")
         editTextTextPersonName4.setText(number)

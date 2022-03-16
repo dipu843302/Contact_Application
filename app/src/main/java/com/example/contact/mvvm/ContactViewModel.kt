@@ -42,4 +42,11 @@ class ContactViewModel(private val contactRepository: ContactRepository) : ViewM
     fun getContactNumber(id:String):LiveData<List<ContactRelation>>{
         return contactRepository.getContactNumber(id)
     }
+    fun deleteNumber(contactEntity: NumberEntity){
+        contactRepository.deleteNumber(contactEntity)
+    }
+
+    fun getAllDeleteDataNumber(name: String): LiveData<List<NumberEntity>>{
+        return contactRepository.getAllDeleteDataNumber(name)
+    }
 }
