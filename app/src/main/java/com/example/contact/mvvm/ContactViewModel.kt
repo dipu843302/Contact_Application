@@ -30,6 +30,7 @@ class ContactViewModel(private val contactRepository: ContactRepository) : ViewM
         contactRepository.delete(name)
     }
 
+
     fun contactUpdate(contactRelation: ContactRelation){
         viewModelScope.launch {
             contactRepository.contactUpdate(contactRelation)
@@ -42,11 +43,9 @@ class ContactViewModel(private val contactRepository: ContactRepository) : ViewM
     fun getContactNumber(id:String):LiveData<List<ContactRelation>>{
         return contactRepository.getContactNumber(id)
     }
-    fun deleteNumber(contactEntity: NumberEntity){
-        contactRepository.deleteNumber(contactEntity)
-    }
 
-    fun getAllDeleteDataNumber(name: String): LiveData<List<NumberEntity>>{
-        return contactRepository.getAllDeleteDataNumber(name)
+
+    fun deleteNumber(name: String){
+        return contactRepository.deleteNumber(name)
     }
 }

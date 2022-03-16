@@ -89,17 +89,12 @@ class ContactDetails : AppCompatActivity(),CallClickListener {
         }
 
         delete.setOnClickListener {
-            val contactEntity=ContactEntity(1,tvName.text.toString(),"sss")
-            contactViewModel.
-           deleteContact(tvName.text.toString())
-            //    deleteNumber(contactEntity)
+            contactViewModel.deleteContact(tvName.text.toString())
+
+            contactViewModel.deleteNumber(tvName.text.toString())
+
             Toast.makeText(this, "Contact Deleted", Toast.LENGTH_SHORT).show()
 
-//           contactViewModel.getAllDeleteDataNumber(tvName.text.toString()).observe(this){
-//               it.forEach {
-//                   contactViewModel.deleteNumber(it)
-//               }
-//           }
             onBackPressed()
         }
 

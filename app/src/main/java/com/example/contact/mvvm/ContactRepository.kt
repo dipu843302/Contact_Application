@@ -52,28 +52,18 @@ class ContactRepository(val contactDao: ContactDao, val context: Context) {
                 val number =
                     cursor!!.getString(cursor!!.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.NUMBER))
 
-//                var number1 =
-//                    cursor!!.getString(cursor!!.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE.toString()))
-//                  if(number1.isNullOrEmpty()){
-//                      number1="Empty"
-//                  }
                 val id=cursor!!.getLong(cursor!!.getColumnIndex(ContactsContract.CommonDataKinds.Photo._ID))
-
                 val uri: Uri = ContentUris.withAppendedId(Contacts.People.CONTENT_URI, id)
                 val bitmap = Contacts.People.loadContactPhoto(context, uri, R.drawable.ic_menu_report_image, null)
                 
                 val contact = ContactEntity(id,name,uri.toString())
+                contactDao.addContact(contact)
+
                 val numberList = mutableListOf<NumberEntity>()
                 val number_contact = NumberEntity(i,number,name,id)
                 i++
                 numberList.add(number_contact)
-
-                val contactRelation = ContactRelation(contact, numberList)
-                listOfContacts.add(contactRelation)
-                contactDao.addContact(contact)
-
                 contactDao.addNumber(number_contact)
-                Log.d("Dipu",number_contact.toString())
             }
 
             contactDao.getAllContacts()
@@ -121,10 +111,10 @@ class ContactRepository(val contactDao: ContactDao, val context: Context) {
         return contactDao.getContactNumber(id)
     }
 
-    fun deleteNumber(contactEntity: NumberEntity){
-        return contactDao.deleteNumber(contactEntity)
-    }
-    fun getAllDeleteDataNumber(name: String): LiveData<List<NumberEntity>>{
-        return contactDao.getAllDeleteDataNumber(name)
+
+    fun deleteNumber(name: String){
+        CoroutineScope(Dispatchers.IO).launch {
+             contactDao.deleteNumber(name)
+        }
     }
 }

@@ -52,9 +52,12 @@ class ContactsFragment : Fragment(), ItemClickListener {
 
         contactViewModel.storeData()
         contactViewModel.fetchAllContact().observe(viewLifecycleOwner, Observer {
-            contactList.clear()
-            contactList.addAll(it)
-            setRecyclerView()
+          if(it!=null){
+              contactList.clear()
+              contactList.addAll(it)
+              setRecyclerView()
+          }
+
         })
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -66,12 +69,12 @@ class ContactsFragment : Fragment(), ItemClickListener {
                 if (newText != null) {
                     if (newText.isEmpty()) {
                         lifecycleScope.launch {
-                            contactViewModel.searchContact(newText.toString())
-                                .observe(requireActivity()) {
-                                    contactList.clear()
-                                    contactList.addAll(it)
+//                            contactViewModel.searchContact(newText.toString())
+//                                .observe(requireActivity()) {
+//                                    contactList.clear()
+//                                    contactList.addAll(it)
                                     setRecyclerView()
-                                }
+//                                }
                         }
                     } else {
                         lifecycleScope.launch {
