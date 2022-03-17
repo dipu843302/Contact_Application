@@ -29,6 +29,9 @@ interface ContactDao {
     @Query("Delete FROM number_table WHERE name=:name")
     fun deleteNumber(name: String)
 
+    @Query("SELECT * FROM number_table Where name=:name")
+    fun fetchNumberForEdit(name: String):LiveData<List<NumberEntity>>
+
 //    @Query("Update number_table Set name=:NewName")
 //    @Update
 //    suspend fun contactUpdate(contactRelation: ContactRelation)

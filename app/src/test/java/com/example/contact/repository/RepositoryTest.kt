@@ -144,4 +144,17 @@ class RepositoryTest {
             mockRepository.storeAllContactsInDatabase()
         }
     }
+
+    @Test
+    fun deleteNumber(){
+        every {
+            contactDao.deleteNumber("number")
+        }
+        runBlocking {
+            contactRepository.deleteNumber("number")
+        }
+        coVerify {
+            contactDao.deleteNumber("number")
+        }
+    }
 }

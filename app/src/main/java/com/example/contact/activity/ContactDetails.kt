@@ -1,22 +1,14 @@
 package com.example.contact.activity
 
-import android.Manifest
-import android.annotation.SuppressLint
-import android.content.Context
+
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.net.Uri
 import android.os.Bundle
-import android.provider.Telephony
-import android.view.LayoutInflater
-import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.contact.Interface.CallClickListener
@@ -30,7 +22,6 @@ import com.example.contact.room.ContactDatabase
 import com.example.contact.room.ContactEntity
 import com.example.contact.room.NumberEntity
 import kotlinx.android.synthetic.main.activity_contact_details.*
-import kotlinx.android.synthetic.main.number_layout.*
 import java.util.*
 
 
@@ -101,7 +92,6 @@ class ContactDetails : AppCompatActivity(),CallClickListener {
         btnEdit.setOnClickListener {
             val intent = Intent(this, EditContact::class.java)
             intent.putExtra("changeName", tvName.text)
-            //  intent.putExtra("number",number)
             startActivity(intent)
             finish()
         }

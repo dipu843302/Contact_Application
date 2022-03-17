@@ -117,4 +117,10 @@ class ContactRepository(val contactDao: ContactDao, val context: Context) {
              contactDao.deleteNumber(name)
         }
     }
+
+    fun fetchNumberForEdit(name: String):LiveData<List<NumberEntity>>{
+       // CoroutineScope(Dispatchers.IO).launch {
+          return contactDao.fetchNumberForEdit(name)
+        }
+    //}
 }

@@ -137,6 +137,19 @@ class ViewModelTest {
         }
     }
 
+    @Test
+    fun deleteNumber(){
+        every {
+            contactRepository.deleteNumber("number")
+        } returns Unit
+        runBlocking {
+            contactViewModel.deleteNumber("number")
+        }
+        coVerify {
+            contactRepository.deleteNumber("number")
+        }
+    }
+
 //    @Test
 //    fun contactUpdate() {
 //        coEvery {

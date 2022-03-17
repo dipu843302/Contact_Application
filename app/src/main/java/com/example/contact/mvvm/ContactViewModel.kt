@@ -48,4 +48,8 @@ class ContactViewModel(private val contactRepository: ContactRepository) : ViewM
     fun deleteNumber(name: String){
         return contactRepository.deleteNumber(name)
     }
+
+    fun fetchNumberForEdit(name: String):LiveData<List<NumberEntity>>{
+       return contactRepository.fetchNumberForEdit(name)
+    }
 }
