@@ -9,6 +9,7 @@ import com.example.contact.room.ContactEntity
 import com.example.contact.room.ContactDao
 import com.example.contact.room.ContactRelation
 import com.example.contact.room.NumberEntity
+import com.google.common.truth.Truth
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -25,8 +26,6 @@ class RepositoryTest {
     private val contactLiveData = MutableLiveData<List<ContactRelation>>()
     private lateinit var userData: LiveData<List<ContactRelation>>
 
-    @MockK
-    lateinit var mockRepository: ContactRepository
 
     @MockK
     lateinit var context: Context
@@ -37,8 +36,7 @@ class RepositoryTest {
     @MockK
     lateinit var contactEntity: ContactEntity
 
-    @MockK
-    lateinit var numberEntity: NumberEntity
+
     lateinit var contactRepository: ContactRepository
 
     @Before
@@ -79,18 +77,19 @@ class RepositoryTest {
         }
     }
 
-//    @Test
-//    fun contactUpdate() {
-//        coEvery {
-//         //   contactDao.contactUpdate(numberEntity)
-//        } returns Unit
-//        runBlocking {
-//            contactRepository.contactUpdate(numberEntity)
-//        }
-//        coVerify {
-//            contactDao.contactUpdate(numberEntity)
-//        }
-//    }
+    @Test
+    fun addContact_isNOtNULL() {
+        every {
+            contactDao.addContact(contactEntity)
+        } returns Unit
+        runBlocking {
+            contactRepository.addContact(contactEntity)
+        }
+        coVerify {
+           Truth.assertThat( contactDao.addContact(contactEntity)).isNotNull()
+        }
+    }
+
 
     @Test
     fun getContactFromSearch() {
@@ -104,6 +103,20 @@ class RepositoryTest {
             contactDao.getNumberFromSearch("search")
         }
     }
+
+    @Test
+    fun getContactFromSearch_isnotNUll() {
+        every {
+            contactDao.getNumberFromSearch("search")
+        } returns userData
+        runBlocking {
+            contactRepository.getNumberFromSearch("search")
+        }
+        coVerify {
+            Truth.assertThat(contactDao.getNumberFromSearch("search")).isNotNull()
+        }
+    }
+
 
     @Test
     fun getContactNameFromSearch() {
@@ -132,18 +145,19 @@ class RepositoryTest {
     }
 
     @Test
-    fun storeAllContactsInDatabase() {
-       // val mutableList= mutableListOf<NumberEntity>()
+    fun getAllContact_isNotNUll() {
         every {
-            mockRepository.storeAllContactsInDatabase()
-        } returns Unit
+            contactDao.getAllContacts()
+        } returns userData
         runBlocking {
-            contactRepository.storeAllContactsInDatabase()
+            contactRepository.getAllContact()
         }
         coVerify {
-            mockRepository.storeAllContactsInDatabase()
+            Truth.assertThat(contactDao.getAllContacts()).isNotNull()
         }
     }
+
+
 
     @Test
     fun deleteNumber(){
@@ -155,6 +169,18 @@ class RepositoryTest {
         }
         coVerify {
             contactDao.deleteNumber("number")
+        }
+    }
+    @Test
+    fun deleteNumber_IsNotNull(){
+        every {
+            contactDao.deleteNumber("number")
+        }
+        runBlocking {
+            contactRepository.deleteNumber("number")
+        }
+        coVerify {
+           Truth.assertThat( contactDao.deleteNumber("number")).isNotNull()
         }
     }
 }

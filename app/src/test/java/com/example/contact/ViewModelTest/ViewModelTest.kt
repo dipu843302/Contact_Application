@@ -8,6 +8,7 @@ import com.example.contact.mvvm.ContactViewModel
 import com.example.contact.room.ContactEntity
 import com.example.contact.room.ContactRelation
 import com.example.contact.room.NumberEntity
+import com.google.common.truth.Truth
 import io.mockk.*
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.runBlocking
@@ -19,9 +20,6 @@ import org.robolectric.annotation.Config
 @RunWith(AndroidJUnit4::class)
 @Config(manifest = Config.NONE)
 class ViewModelTest {
-
-    private val contactLiveData = MutableLiveData<List<ContactRelation>>()
-    lateinit var liveData: LiveData<List<ContactRelation>>
 
     @MockK
     lateinit var contactRepository: ContactRepository
@@ -38,7 +36,6 @@ class ViewModelTest {
     fun setUp() {
         MockKAnnotations.init(this)
         contactViewModel = ContactViewModel(contactRepository)
-        // liveData = contactLiveData
     }
 
     @Test
@@ -68,20 +65,7 @@ class ViewModelTest {
         }
     }
 
-    @Test
-    fun searchContact() {
-        val mutableList = mutableListOf<ContactRelation>()
-        coEvery {
-            contactRepository.getContactsAsPerSearch("name").value
-        } returns mutableList
 
-        runBlocking {
-            contactViewModel.searchContact("name").value
-        }
-        coVerify {
-            contactRepository.getContactsAsPerSearch("name")
-        }
-    }
 
     @Test
     fun addNumber() {
@@ -97,6 +81,18 @@ class ViewModelTest {
     }
 
     @Test
+    fun addNumber_isNotNull() {
+        every {
+            contactRepository.addNumber(numberEntity)
+        } returns Unit
+        runBlocking {
+            contactViewModel.addNumber(numberEntity)
+        }
+        verify {
+           Truth.assertThat( contactRepository.addNumber(numberEntity)).isNotNull()
+        }
+    }
+    @Test
     fun getAllContact() {
         val mutableList3 = mutableListOf<ContactRelation>()
         coEvery {
@@ -107,6 +103,20 @@ class ViewModelTest {
         }
         coVerify {
             contactRepository.getAllContact()
+        }
+    }
+
+    @Test
+    fun getAllContact_isNotNull() {
+        val mutableList3 = mutableListOf<ContactRelation>()
+        coEvery {
+            contactRepository.getAllContact().value
+        } returns mutableList3
+        runBlocking {
+            contactViewModel.fetchAllContact()
+        }
+        coVerify {
+            Truth.assertThat(contactRepository.getAllContact()).isNotNull()
         }
     }
 
@@ -124,18 +134,18 @@ class ViewModelTest {
     }
 
     @Test
-    fun searchByNumber() {
-        val mutableList2 = mutableListOf<ContactRelation>()
-        coEvery {
-            contactRepository.getNumberFromSearch("number").value
-        } returns mutableList2
+    fun storeData_IsNotNull() {
+        every {
+            contactRepository.storeAllContactsInDatabase()
+        } returns Unit
         runBlocking {
-            contactViewModel.getNumberFromSearch("number").value
+            contactViewModel.storeData()
         }
-        coVerify {
-            contactRepository.getNumberFromSearch("number").value
+        verify {
+            Truth.assertThat(contactRepository.storeAllContactsInDatabase()).isNotNull()
         }
     }
+
 
     @Test
     fun deleteNumber(){
@@ -150,16 +160,17 @@ class ViewModelTest {
         }
     }
 
-//    @Test
-//    fun contactUpdate() {
-//        coEvery {
-//            contactRepository.contactUpdate(numberEntity)
-//        } returns Unit
-//        runBlocking {
-//            contactViewModel.contactUpdate(numberEntity)
-//        }
-//        coVerify {
-//            contactRepository.contactUpdate(numberEntity)
-//        }
-//    }
+    @Test
+    fun deleteNumber_isNotNull(){
+        every {
+            contactRepository.deleteNumber("number")
+        } returns Unit
+        runBlocking {
+            contactViewModel.deleteNumber("number")
+        }
+        coVerify {
+            Truth.assertThat(contactRepository.deleteNumber("number")).isNotNull()
+        }
+    }
+
 }
